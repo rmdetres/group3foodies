@@ -2,26 +2,32 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/reset.css">
-    <!-- reset.css is a courtesy of Columbia University Coding Bootcamp -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <title>Group3Foodies</title>
+  <meta charset="UTF-8" />
+  <title>Group 3 Foodies Food Spots List</title>
+  <link rel="stylesheet" type="text/css" href="./assets/css/jass.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
 </head>
 
-<body>
+<body class="bg-dark text-light">
+  <main class="my-5 mx-auto">
+    <h1>Food Spots List</h1>
+    <hr />
 
-    <!-- Script -->
-    <script src=" https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-        </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-        crossorigin="anonymous"></script>
-    <script type="text/javascript" src="assets/js/script.js"></script>
+    <h2>Add an item to the list.</h2>
+    <form id="shopping-form">
+      <input type="text" class="form-input w-100" id="shopping-input" name="shopping-input" placeholder="Enter item name" />
+      <button class="btn btn-info">Add Item</button>
+    </form>
 
+    <ul id="shopping-list"></ul>
+  </main>
+
+  <!-- Added link to the jQuery library -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+  <!-- Your JavaScript file -->
+  <script type="text/javascript" src="assets/js/script.js">
+  </script>
 </body>
 
 </html>
