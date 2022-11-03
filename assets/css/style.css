@@ -12,4 +12,10 @@ main {
   ul li {
     margin: 1.2rem 0;
   }
+
+  .myDiv {
+    border: 5px outset red;
+    background-color: lightblue;    
+    text-align: center;
+  }
   
