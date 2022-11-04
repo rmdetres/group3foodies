@@ -42,4 +42,22 @@ fetch('https://documenu.p.rapidapi.com/restaurants/search/geo?lat=40.68919&lon=-
 	.then(response => console.log(response))
 	.catch(err => console.error(err));
 
+
+
+___________________________________________________________________
+
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
+		'X-RapidAPI-Host': 'distanceto.p.rapidapi.com'
+	}
+};
+
+fetch('https://distanceto.p.rapidapi.com/get?route=%3CREQUIRED%3E&car=false', options)
+	.then(response => response.json())
+	.then(response => console.log(response))
+	.catch(err => console.error(err));
+
+
   */
