@@ -23,3 +23,23 @@ function handleFormSubmit(event) {
 
 // Create a submit event listener on the form element
 shoppingFormEl.on('submit', handleFormSubmit);
+
+
+
+/*
+
+const options = {
+	method: 'GET',
+	headers: {
+		'x-api-key': '<REQUIRED>',
+		'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
+		'X-RapidAPI-Host': 'documenu.p.rapidapi.com'
+	}
+};
+
+fetch('https://documenu.p.rapidapi.com/restaurants/search/geo?lat=40.68919&lon=-73.992378&distance=5&size=30&page=2&fullmenu=true&cuisine=Italian&top_cuisines=true', options)
+	.then(response => response.json())
+	.then(response => console.log(response))
+	.catch(err => console.error(err));
+
+  */
