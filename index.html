@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Group 3 Foodies Food Spots List</title>
-  <link rel="stylesheet" type="text/css" href="./assets/css/jass.css" />
   <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
 </head>
 
@@ -20,10 +19,12 @@
       </div>
     <hr />
 
-    <form id="zipCode">
-        <input type="text" class="form-input w-100" id="zipCode-input" name="zipCode-input" placeholder="Enter a zip code" />
-        <button class="btn btn-info">Search Zip Code</button>
-      </form>
+    <div id="zipCode">
+      <input name="cityname" id="zipCode2" type="text" autofocus="true" class="input" />
+      <button class="btn btn-danger" id="fetch-button">
+        Click Me
+      </button>
+    </div>
 
     <h2>Add an item to the list.</h2>
     <form id="shopping-form">

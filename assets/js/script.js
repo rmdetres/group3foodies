@@ -1,8 +1,15 @@
-// need input for zipco
+
 
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
-var zipcode = "06525"
+var zipcode = "06525";
+var zipcodeData = document.querySelector('#zipCode2');
+
+
+var fetchButton = document.getElementById('fetch-button');
+
+fetchButton.addEventListener('click', getData);
+
 
 // create function to handle form submission
 function handleFormSubmit(event) {
@@ -25,13 +32,40 @@ function handleFormSubmit(event) {
 }
 
 // Create a submit event listener on the form element
-shoppingFormEl.on('submit', handleFormSubmit);
+//shoppingFormEl.on('submit', handleFormSubmit);
 
 //*
 //*WORKING
 // *Gets restaurants near zipcode
 // *Can also do   {state}   and     {state} , {city}
 
+
+function getData(){
+  var zipcodeDataFinal  = zipcodeData.value.trim()
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
+      'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
+    }
+  };
+  
+  fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcodeDataFinal + '/0', options) 
+    .then(response => response.json())
+    .then(function(response) {
+      for (i = 0; i < response.restaurants.length; i++) {
+      console.log(response.restaurants[i].restaurantName);
+      shoppingListEl.text(response.restaurants[i].restaurantName);
+    }})
+    .catch(err => console.error(err));
+
+}
+
+
+
+
+=======
 const options = {
 	method: 'GET',
 	headers: {
@@ -50,7 +84,7 @@ fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipco
 	.catch(err => console.error(err));
 // */
 
-console.log(document);
+
 
 // *
 // *WORKING // 
