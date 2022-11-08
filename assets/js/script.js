@@ -1,3 +1,5 @@
+// need input for zipco
+
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
 var zipcode = "06525"
@@ -30,18 +32,22 @@ shoppingFormEl.on('submit', handleFormSubmit);
 // *Gets restaurants near zipcode
 // *Can also do   {state}   and     {state} , {city}
 
-// const options = {
-// 	method: 'GET',
-// 	headers: {
-// 		'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
-// 		'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
-// 	}
-// };
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
+		'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
+	}
+};
 
-// fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcode + '/0', options)
-// 	.then(response => response.json())
-// 	.then(response => console.log(response))
-// 	.catch(err => console.error(err));
+fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcode + '/0', options) 
+	.then(response => response.json())
+	.then(function(response) {
+		for (i = 0; i < response.restaurants.length; i++) {
+		console.log(response.restaurants[i].restaurantName);
+		shoppingListEl.text(response.restaurants[i].restaurantName);
+	}})
+	.catch(err => console.error(err));
 // */
 
 console.log(document);
