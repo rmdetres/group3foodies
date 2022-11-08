@@ -55,7 +55,9 @@ function getData(){
     .then(function(response) {
       for (i = 0; i < response.restaurants.length; i++) {
       console.log(response.restaurants[i].restaurantName);
-      shoppingListEl.text(response.restaurants[i].restaurantName);
+      var foodSpots = document.createElement('li');
+      foodSpots.textContent = response.restaurants[i].restaurantName;
+      shoppingListEl.append(foodSpots);
     }})
     .catch(err => console.error(err));
 
