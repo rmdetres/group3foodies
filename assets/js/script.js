@@ -8,6 +8,7 @@ var currentLoc = {
 
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
+var restList = $('#rest-list');
 var zipcode = "06525";
 var zipcodeData = document.querySelector('#zipCode2');
 var locationGot = true;
@@ -39,7 +40,23 @@ function handleFormSubmit(event) {
 }
 
 // Create a submit event listener on the form element
-//shoppingFormEl.on('submit', handleFormSubmit);
+ shoppingFormEl.on('submit', handleFormSubmit);
+
+// *function gets the geolocation to determine distance to for the api
+// function getLocation() {
+// 	if (navigator.geolocation) {
+// 		navigator.geolocation.getCurrentPosition(showPosition);
+// 	} else {
+// 		console.log("Geolocation is not supported by this browser.");
+// 	}
+// }
+// function showPosition(position) {
+// 	console.log(position);
+// 	console.log(position.coords.latitude);
+// 	console.log(position.coords.longitude);
+// }
+
+// getLocation();
 
 // *function gets the geolocation to determine distance to for the api
 function getLocation() {
@@ -105,7 +122,7 @@ function buildResponse(zipcodeDataFinal) {
 		console.log(storedRestaurants[i].restaurantName);
 		var foodSpots = document.createElement('li');
 		foodSpots.textContent = storedRestaurants[i].restaurantName;
-		shoppingListEl.append(foodSpots);
+		restList.append(foodSpots);
 	}
 }
 
