@@ -3,7 +3,8 @@ var storedRestaurants = JSON.parse(localStorage.getItem("storedRestaurants"));
 var storedDistance;
 var currentLoc = {
   "latitude": "",
-  "longitude":"",
+  "longitude": "",
+  "zipcode": "",
 };
 
 var shoppingFormEl = $('#shopping-form');
@@ -12,7 +13,6 @@ var restList = $('#rest-list');
 var zipcode = "06525";
 var zipcodeData = document.querySelector('#zipCode2');
 var locationGot = true;
-
 
 var fetchButton = document.getElementById('fetch-button');
 
@@ -40,7 +40,7 @@ function handleFormSubmit(event) {
 }
 
 // Create a submit event listener on the form element
- shoppingFormEl.on('submit', handleFormSubmit);
+shoppingFormEl.on('submit', handleFormSubmit);
 
 // *function gets the geolocation to determine distance to for the api
 // function getLocation() {
@@ -60,17 +60,17 @@ function handleFormSubmit(event) {
 
 // *function gets the geolocation to determine distance to for the api
 function getLocation() {
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(showPosition);
-   locationGot = true;
-	} else {
-		console.log("Geolocation is not supported by this browser.");
-	}
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    locationGot = true;
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
 }
 function showPosition(position) {
-	console.log(position);
-	currentLoc.latitude = position.coords.latitude;
-	currentLoc.longitude = position.coords.longitude;
+  console.log(position);
+  currentLoc.latitude = position.coords.latitude;
+  currentLoc.longitude = position.coords.longitude;
 }
 
 getLocation();
@@ -81,34 +81,34 @@ getLocation();
 // *Can also do   {state}   and     {state} , {city}
 
 
-function getData(){
-  var zipcodeDataFinal  = zipcode //zipcodeData.value.trim()
+function getData() {
+  var zipcodeDataFinal = zipcode //zipcodeData.value.trim()
 
   const options = {
     method: 'GET',
     headers: {
-			'X-RapidAPI-Key': 'a9ea82fb84msh7369adc411cc5cbp18f351jsn9f009c32dbe0',
-			'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
+      'X-RapidAPI-Key': 'a9ea82fb84msh7369adc411cc5cbp18f351jsn9f009c32dbe0',
+      'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
     }
   };
-  
-	if (storedRestaurants === null || zipcodeDataFinal != zipcode) {
-		fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcodeDataFinal + '/0', options) // set static zip code for CONSTRUCTION
-			.then(response => response.json())
-			.then(function (response) {
-				storedRestaurants = response.restaurants;
-				localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
-        
-        buildResponse(zipcodeDataFinal);
-				console.log('fetched');
-			})
-			.catch(err => console.error(err));
-	} else {
-		buildResponse();
 
-		console.log('localstoraged');
+  if (storedRestaurants === null || zipcodeDataFinal != zipcode) {
+    fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcodeDataFinal + '/0', options) // set static zip code for CONSTRUCTION
+      .then(response => response.json())
+      .then(function (response) {
+        storedRestaurants = response.restaurants;
+        localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
+
+        buildResponse(zipcodeDataFinal);
+        console.log('fetched');
+      })
+      .catch(err => console.error(err));
+  } else {
+    buildResponse(zipcodeDataFinal);
+
+    console.log('localstoraged');
     console.log(storedRestaurants);
-	}
+  }
 
 }
 // */
@@ -116,40 +116,52 @@ function getData(){
 //Function to build layout for zipcode search results
 function buildResponse(zipcodeDataFinal) {
   if (locationGot) {
-  getDistance(zipcodeDataFinal)
+    getDistance(zipcodeDataFinal)
   }
-	for (i = 0; i < storedRestaurants.length; i++) {
-		console.log(storedRestaurants[i].restaurantName);
-		var foodSpots = document.createElement('li');
-		foodSpots.textContent = storedRestaurants[i].restaurantName;
-		restList.append(foodSpots);
-	}
+  for (let i = 0; i < storedRestaurants.length; i++) {
+    console.log(storedRestaurants[i].restaurantName);
+    var foodSpots = document.createElement('li');
+    foodSpots.textContent = storedRestaurants[i].restaurantName;
+    restList.append(foodSpots);
+  }
 }
 
 function getDistance(zipcodeDataFinal) {
-   if (zipcodeDataFinal != zipcode && storedRestaurants[0].distance === undefined) {
+  console.log(storedRestaurants);
+  if (!Object.keys(storedRestaurants[0]).includes('distance')) {
     console.log('fetching distance');
-    // const options = {
-    //   method: 'GET',
-    //   headers: {
-    //     'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
-    //     'X-RapidAPI-Host': 'route-and-directions.p.rapidapi.com'
-    //   }
-    // };
-    
-    // fetch('https://route-and-directions.p.rapidapi.com/v1/routing?waypoints=48.34364%2C10.87474%7C48.37073%2C10.90925&mode=drive', options)
-    //   .then(response => response.json())
-    //   .then(function (response) {
+    for (let i = 0; i < storedRestaurants.length; i++) {
 
-    //    )}
-    //   .catch(err => console.error(err));
-    // console.log(storedRestaurants[0].distance);
+      const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
+          'X-RapidAPI-Host': 'route-and-directions.p.rapidapi.com'
+        }
+      };
+
+      console.log(storedRestaurants[i]);
+
+      fetch('https://route-and-directions.p.rapidapi.com/v1/routing?waypoints=' + currentLoc.latitude + ',' + currentLoc.longitude + '|' + storedRestaurants[i].latitude + ',' + storedRestaurants[i].longitude + '&mode=walk', options)
+        .then(response => response.json())
+        .then(function (response) {
+          console.log(response)
+          console.log(response.features[0].properties.distance)
+          console.log(storedRestaurants[i]);
+          storedRestaurants[i].distance = response.features[0].properties.distance;
+          storedRestaurants[i].time = response.features[0].properties.time;
+        })
+        .catch(err => console.error(err));
+      ;
+    }
+
+    // iterate fetch for each item, assign distance to storedRestaurants[i].distance = meters
     //
-  // iterate fetch for each item, assign distance to storedRestaurants[i].distance = meters
-  //
-  //sort array by the storedRestaurants[i]distance
-  // storedRestaurants.sort((a,b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0))
-  // localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
+    //sort array by the storedRestaurants[i]distance
+    // storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0))
+    // localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
+  } else {
+    console.log('data was there');
   }
 }
 // *
