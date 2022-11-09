@@ -1,40 +1,68 @@
-
-var storedRestaurants = JSON.parse(localStorage.getItem("storedRestaurants"));
+var storedRestaurants = "";
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
 var restList = $('#rest-list');
 var zipcode = "06525";
 var zipcodeData = document.querySelector('#zipCode2');
+var shoppingItemsLocalStorage = [];
 
-
+//button to fetch the restaurant API calls
 var fetchButton = document.getElementById('fetch-button');
-
 fetchButton.addEventListener('click', getData);
 
+runLocalStorage();
 
-// create function to handle form submission
+// create foods spots list the user enters
 function handleFormSubmit(event) {
   event.preventDefault();
 
-  // select form element by its `name` attribute and get its value
-  var shoppingItem = $('input[name="shopping-input"]').val();
+  //line below updates the variable to pull the latest data, super important
+  shoppingItemsLocalStorage = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
 
-  // if there's nothing in the form entered, don't print to the page
+  var shoppingItem = $('input[name="shopping-input"]').val();
   if (!shoppingItem) {
     console.log('No shopping item filled out in form!');
-    return;
-  }
-
-  // print to the page
+    return;}
   shoppingListEl.append('<li>' + shoppingItem + '</li>');
-
-  // clear the form input element
   $('input[name="shopping-input"]').val('');
+  shoppingItemsLocalStorage.push(shoppingItem);
+  console.log(shoppingItemsLocalStorage);
+  saveLocalStorage(shoppingItemsLocalStorage);
 }
+
+
+
+
 
 // Create a submit event listener on the form element
  shoppingFormEl.on('submit', handleFormSubmit);
 
+ //this function saves local storage for user entered data.
+function saveLocalStorage(shoppingItemsLocalStorage){
+  
+  localStorage.setItem("shoppingItemsLocalStorage", JSON.stringify(shoppingItemsLocalStorage));
+  
+}
+
+
+// function to run the local storage
+function runLocalStorage(){
+
+  console.log("is this working1")
+  var shoppingItem = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
+  console.log(shoppingItem);
+  for (i = 0; i < shoppingItem.length; i++){ 
+  shoppingListEl.append('<li>' + shoppingItem[i] + '</li>');
+    console.log("is this working")
+  }
+}
+
+
+
+
+
+
+
 // *function gets the geolocation to determine distance to for the api
 // function getLocation() {
 // 	if (navigator.geolocation) {
@@ -66,14 +94,18 @@ function handleFormSubmit(event) {
 // }
 
 // getLocation();
+
+
+
+
 
 //*
 //*WORKING
 // *Gets restaurants near zipcode
 // *Can also do   {state}   and     {state} , {city}
 
-
 function getData(){
+  
   var zipcodeDataFinal  = zipcodeData.value.trim()
 
   const options = {
@@ -102,6 +134,8 @@ function getData(){
 }
 // */
 
+
+
 //Function to build layout for zipcode search results
 function buildResponse() {
 	for (i = 0; i < storedRestaurants.length; i++) {
@@ -111,6 +145,16 @@ function buildResponse() {
 		restList.append(foodSpots);
 	}
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
