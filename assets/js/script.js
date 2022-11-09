@@ -122,9 +122,12 @@ function getDistance(zipcodeDataFinal) {
     
     // fetch('https://route-and-directions.p.rapidapi.com/v1/routing?waypoints=48.34364%2C10.87474%7C48.37073%2C10.90925&mode=drive', options)
     //   .then(response => response.json())
-    //   .then(response => console.log(response))
+    //   .then(function (response) {
+
+    //    )}
     //   .catch(err => console.error(err));
     // console.log(storedRestaurants[0].distance);
+    //
   // iterate fetch for each item, assign distance to storedRestaurants[i].distance = meters
   //
   //sort array by the storedRestaurants[i]distance
