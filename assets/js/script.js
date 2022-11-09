@@ -1,7 +1,8 @@
 
-
+var storedRestaurants = JSON.parse(localStorage.getItem("storedRestaurants"));
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
+var restList = $('#rest-list');
 var zipcode = "06525";
 var zipcodeData = document.querySelector('#zipCode2');
 
@@ -32,7 +33,23 @@ function handleFormSubmit(event) {
 }
 
 // Create a submit event listener on the form element
-//shoppingFormEl.on('submit', handleFormSubmit);
+ shoppingFormEl.on('submit', handleFormSubmit);
+
+// *function gets the geolocation to determine distance to for the api
+// function getLocation() {
+// 	if (navigator.geolocation) {
+// 		navigator.geolocation.getCurrentPosition(showPosition);
+// 	} else {
+// 		console.log("Geolocation is not supported by this browser.");
+// 	}
+// }
+// function showPosition(position) {
+// 	console.log(position);
+// 	console.log(position.coords.latitude);
+// 	console.log(position.coords.longitude);
+// }
+
+// getLocation();
 
 //*
 //*WORKING
@@ -46,28 +63,38 @@ function getData(){
   const options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
-      'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
+			'X-RapidAPI-Key': 'a9ea82fb84msh7369adc411cc5cbp18f351jsn9f009c32dbe0',
+			'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
     }
   };
   
-  fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcodeDataFinal + '/0', options) 
-    .then(response => response.json())
-    .then(function(response) {
-      for (i = 0; i < response.restaurants.length; i++) {
-      console.log(response.restaurants[i].restaurantName);
-      var foodSpots = document.createElement('li');
-      foodSpots.textContent = response.restaurants[i].restaurantName;
-      shoppingListEl.append(foodSpots);
-    }})
-    .catch(err => console.error(err));
+	if (storedRestaurants === null) {
+		fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcode + '/0', options) // set static zip code for CONSTRUCTION
+			.then(response => response.json())
+			.then(function (response) {
+				storedRestaurants = response.restaurants;
+				localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
+				buildResponse();
+				console.log('fetched');
+			})
+			.catch(err => console.error(err));
+	} else {
+		buildResponse();
+		console.log('localstoraged');
+	}
 
 }
-
-
-
-
 // */
+
+//Function to build layout for zipcode search results
+function buildResponse() {
+	for (i = 0; i < storedRestaurants.length; i++) {
+		console.log(storedRestaurants[i].restaurantName);
+		var foodSpots = document.createElement('li');
+		foodSpots.textContent = storedRestaurants[i].restaurantName;
+		restList.append(foodSpots);
+	}
+}
 
 
 
