@@ -2,49 +2,60 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Group 3 Foodies Food Spots List</title>
-  <link rel="stylesheet" type="text/css" href="./assets/css/jass.css" />
-  <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  </head>
+  <title>Group3Foodies</title>
 </head>
 
-
-
-<body class="bg-dark text-light">
-  <main class="my-5 mx-auto">
-    <h1>Food Spots List</h1>
-
-    <div class="myDiv">
-        <h2>Document API data goes here</h2>
-        <p>This is some text in a div element.</p>
-      </div>
-    <hr />
-
-    <form id="zipCode">
-        <input type="text" class="form-input w-100" id="zipCode-input" name="zipCode-input" placeholder="Enter a zip code" />
-        <button class="btn btn-info">Search Zip Code</button>
+<body>
+  <header>
+    <div class="logo-container">
+      <img class="logo" src="./assets/images/logo.png" alt="Group3Foodies" width="200px;" length="200px">
+    </div>
+    <div class="nav-container">
+      <p class="social">Connect with Us&nbsp;</p>
+      <a href="https://www.facebook.com/"><i class='fab fa-facebook'></i></a>
+      <a href="https://www.instagram.com/"><i class='fab fa-instagram'></i></a>
+      <a href="https://twitter.com/"><i class='fab fa-twitter'></i></a>
+    </div>
+  </header>
+  <main>
+    <div class="input-container">
+      <form id="zipCode">
+        <label>Enter your Zip Code</label>
+        <input type="text" id="zipCode2" name="zipCode-input" placeholder="What are you in a mood for?" />
+        <button id="fetch-button">Search on</button>
+        <p class="sub-title">#Delectable&nbsp;<i class='fas fa-pepper-hot'></i></p>
       </form>
-
-    <h2>Add an item to the list.</h2>
-    <form id="shopping-form">
-      <input type="text" class="form-input w-100" id="shopping-input" name="shopping-input" placeholder="Enter item name" />
-      <button class="btn btn-info">Add Restaurant </button>
-    </form>
-
-    <ul id="shopping-list"></ul>
+    </div>
   </main>
+  <div>
+    <div class="result-container">
+      <p id="rest-list"></p>
+    </div>
+    <form id="shopping-form">
+      <input type="text" id="shopping-input" name="shopping-input" placeholder="Enter Restaurant Name" />
+      <button class="shopping-input-button">Add to Favorites</button>
+    </form>
+    <p id="shopping-list"></p>
+  </div>
 
 
-
-  
-
+  <footer>&copy; 2022 Group3Foodies</footer>
 
 
   <!-- Added link to the jQuery library -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
   <!-- Your JavaScript file -->
-  <script type="text/javascript" src="assets/js/script.js">
+  <script type="text/javascript" src="./assets/js/script.js">
   </script>
 </body>
 
