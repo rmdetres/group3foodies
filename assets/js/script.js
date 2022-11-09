@@ -1,54 +1,49 @@
+var storedRestaurants = "";
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
+var restList = $('#rest-list');
+var zipcode = "06525";
+var zipcodeData = document.querySelector('#zipCode2');
+var shoppingItemsLocalStorage = [];
 
-// create function to handle form submission
+//button to fetch the restaurant API calls
+var fetchButton = document.getElementById('fetch-button');
+fetchButton.addEventListener('click', getData);
+
+runLocalStorage();
+
+// create foods spots list the user enters
 function handleFormSubmit(event) {
 	event.preventDefault();
 
-	// select form element by its `name` attribute and get its value
-	var shoppingItem = $('input[name="shopping-input"]').val();
-
-	// if there's nothing in the form entered, don't print to the page
-	if (!shoppingItem) {
-		console.log('No shopping item filled out in form!');
-		return;
-	}
-
-	// print to the page
-	shoppingListEl.append('<li>' + shoppingItem + '</li>');
-
-	// clear the form input element
-	$('input[name="shopping-input"]').val('');
 }
 
+
+
+
+
 // Create a submit event listener on the form element
-shoppingFormEl.on('submit', handleFormSubmit);
+ shoppingFormEl.on('submit', handleFormSubmit);
+
+ //this function saves local storage for user entered data.
+function saveLocalStorage(shoppingItemsLocalStorage){
+  
+  localStorage.setItem("shoppingItemsLocalStorage", JSON.stringify(shoppingItemsLocalStorage));
+  
+}
+
+
+// function to run the local storage
+function runLocalStorage(){
+
+  console.log("is this working1")
+  var shoppingItem = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
+  console.log(shoppingItem);
+  for (i = 0; i < shoppingItem.length; i++){ 
+  shoppingListEl.append('<li>' + shoppingItem[i] + '</li>');
+    console.log("is this working")
+  }
+}
 
 
 
-/*
-const options = {
-	method: 'GET',
-	headers: {
-		'x-api-key': '<REQUIRED>',
-		'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
-		'X-RapidAPI-Host': 'documenu.p.rapidapi.com'
-	}
-};
-fetch('https://documenu.p.rapidapi.com/restaurants/search/geo?lat=40.68919&lon=-73.992378&distance=5&size=30&page=2&fullmenu=true&cuisine=Italian&top_cuisines=true', options)
-	.then(response => response.json())
-	.then(response => console.log(response))
-	.catch(err => console.error(err));
-___________________________________________________________________
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
-		'X-RapidAPI-Host': 'distanceto.p.rapidapi.com'
-	}
-};
-fetch('https://distanceto.p.rapidapi.com/get?route=%3CREQUIRED%3E&car=false', options)
-	.then(response => response.json())
-	.then(response => console.log(response))
-	.catch(err => console.error(err));
-  */
