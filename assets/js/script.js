@@ -42,21 +42,21 @@ function handleFormSubmit(event) {
 //shoppingFormEl.on('submit', handleFormSubmit);
 
 // *function gets the geolocation to determine distance to for the api
-// function getLocation() {
-// 	if (navigator.geolocation) {
-// 		navigator.geolocation.getCurrentPosition(showPosition);
-//    locationGot = true;
-// 	} else {
-// 		console.log("Geolocation is not supported by this browser.");
-// 	}
-// }
-// function showPosition(position) {
-// 	console.log(position);
-// 	currentLoc.latitude = position.coords.latitude;
-// 	currentLoc.longitude = position.coords.longitude;
-// }
+function getLocation() {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition);
+   locationGot = true;
+	} else {
+		console.log("Geolocation is not supported by this browser.");
+	}
+}
+function showPosition(position) {
+	console.log(position);
+	currentLoc.latitude = position.coords.latitude;
+	currentLoc.longitude = position.coords.longitude;
+}
 
-// getLocation();
+getLocation();
 
 //*
 //*WORKING
