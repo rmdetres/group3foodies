@@ -1,21 +1,55 @@
 main {
-    margin: 3rem auto;
-    max-width: 90vw;
-    width: 50ch;
-  }
-  
-  ul {
-    margin: 3rem auto;
-    font-size: 1.75rem;
-  }
-  
-  ul li {
-    margin: 1.2rem 0;
-  }
+  margin: 3rem auto;
+  max-width: 90vw;
+  width: 50ch;
+}
 
-  .myDiv {
-    border: 5px outset red;
-    background-color: lightblue;    
-    text-align: center;
+ul {
+  margin: 3rem auto;
+  font-size: 1.75rem;
+}
+
+ul li {
+  margin: 1.2rem 0;
+}
+
+.myDiv {
+  border: 5px outset red;
+  background-color: lightblue;    
+  text-align: center;
+}
+
+/*added in gallery styling*/
+.image-grid {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;  
+  flex-wrap: wrap;   
+  justify-content: center;                          
+}
+
+.grid-image {
+  display: block;
+  flex-basis: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+@media only screen and (min-width: 640px) {
+  .grid-image {
+      flex-basis: 50%;
   }
-  
+}
+
+
+@media only screen and (min-width: 960px) {
+  .grid-image {
+      flex-basis: 33.33%;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .grid-image {
+      flex-basis: 25%;
+  }
+}
