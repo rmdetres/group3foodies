@@ -1,9 +1,16 @@
 
 var storedRestaurants = JSON.parse(localStorage.getItem("storedRestaurants"));
+var storedDistance;
+var currentLoc = {
+  "latitude": "",
+  "longitude":"",
+};
+
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
 var zipcode = "06525";
 var zipcodeData = document.querySelector('#zipCode2');
+var locationGot = true;
 
 
 var fetchButton = document.getElementById('fetch-button');
@@ -38,14 +45,15 @@ function handleFormSubmit(event) {
 // function getLocation() {
 // 	if (navigator.geolocation) {
 // 		navigator.geolocation.getCurrentPosition(showPosition);
+//    locationGot = true;
 // 	} else {
 // 		console.log("Geolocation is not supported by this browser.");
 // 	}
 // }
 // function showPosition(position) {
 // 	console.log(position);
-// 	console.log(position.coords.latitude);
-// 	console.log(position.coords.longitude);
+// 	currentLoc.latitude = position.coords.latitude;
+// 	currentLoc.longitude = position.coords.longitude;
 // }
 
 // getLocation();
@@ -57,7 +65,7 @@ function handleFormSubmit(event) {
 
 
 function getData(){
-  var zipcodeDataFinal  = zipcodeData.value.trim()
+  var zipcodeDataFinal  = zipcode //zipcodeData.value.trim()
 
   const options = {
     method: 'GET',
@@ -67,26 +75,32 @@ function getData(){
     }
   };
   
-	if (storedRestaurants === null) {
-		fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcode + '/0', options) // set static zip code for CONSTRUCTION
+	if (storedRestaurants === null || zipcodeDataFinal != zipcode) {
+		fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcodeDataFinal + '/0', options) // set static zip code for CONSTRUCTION
 			.then(response => response.json())
 			.then(function (response) {
 				storedRestaurants = response.restaurants;
 				localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
-				buildResponse();
+        
+        buildResponse(zipcodeDataFinal);
 				console.log('fetched');
 			})
 			.catch(err => console.error(err));
 	} else {
 		buildResponse();
+
 		console.log('localstoraged');
+    console.log(storedRestaurants);
 	}
 
 }
 // */
 
 //Function to build layout for zipcode search results
-function buildResponse() {
+function buildResponse(zipcodeDataFinal) {
+  if (locationGot) {
+  getDistance(zipcodeDataFinal)
+  }
 	for (i = 0; i < storedRestaurants.length; i++) {
 		console.log(storedRestaurants[i].restaurantName);
 		var foodSpots = document.createElement('li');
@@ -95,8 +109,29 @@ function buildResponse() {
 	}
 }
 
-
-
+function getDistance(zipcodeDataFinal) {
+   if (zipcodeDataFinal != zipcode && storedRestaurants[0].distance === undefined) {
+    console.log('fetching distance');
+    // const options = {
+    //   method: 'GET',
+    //   headers: {
+    //     'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
+    //     'X-RapidAPI-Host': 'route-and-directions.p.rapidapi.com'
+    //   }
+    // };
+    
+    // fetch('https://route-and-directions.p.rapidapi.com/v1/routing?waypoints=48.34364%2C10.87474%7C48.37073%2C10.90925&mode=drive', options)
+    //   .then(response => response.json())
+    //   .then(response => console.log(response))
+    //   .catch(err => console.error(err));
+    // console.log(storedRestaurants[0].distance);
+  // iterate fetch for each item, assign distance to storedRestaurants[i].distance = meters
+  //
+  //sort array by the storedRestaurants[i]distance
+  // storedRestaurants.sort((a,b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0))
+  // localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
+  }
+}
 // *
 // *WORKING // 
 // distance: (in meters) = this.steps.0.distance.car.distance
