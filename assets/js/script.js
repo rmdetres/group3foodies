@@ -51,6 +51,22 @@ function handleFormSubmit(event) {
 
 // getLocation();
 
+// *function gets the geolocation to determine distance to for the api
+// function getLocation() {
+// 	if (navigator.geolocation) {
+// 		navigator.geolocation.getCurrentPosition(showPosition);
+// 	} else {
+// 		console.log("Geolocation is not supported by this browser.");
+// 	}
+// }
+// function showPosition(position) {
+// 	console.log(position);
+// 	console.log(position.coords.latitude);
+// 	console.log(position.coords.longitude);
+// }
+
+// getLocation();
+
 //*
 //*WORKING
 // *Gets restaurants near zipcode
