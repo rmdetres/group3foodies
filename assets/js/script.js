@@ -12,7 +12,7 @@ var shoppingListEl = $('#shopping-list');
 var restList = $('#rest-list');
 var zipcode = "06525";
 var zipcodeData = document.querySelector('#zipCode2');
-var locationGot = true;
+var locationGot = false;
 
 var fetchButton = document.getElementById('fetch-button');
 
@@ -116,7 +116,9 @@ function getData() {
 //Function to build layout for zipcode search results
 function buildResponse(zipcodeDataFinal) {
   if (locationGot) {
-    getDistance(zipcodeDataFinal)
+    getDistance(zipcodeDataFinal);
+    storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0));
+    console.log(storedRestaurants);
   }
   for (let i = 0; i < storedRestaurants.length; i++) {
     console.log(storedRestaurants[i].restaurantName);
@@ -158,7 +160,7 @@ function getDistance(zipcodeDataFinal) {
     // iterate fetch for each item, assign distance to storedRestaurants[i].distance = meters
     //
     //sort array by the storedRestaurants[i]distance
-    // storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0))
+
     // localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
   } else {
     console.log('data was there');
