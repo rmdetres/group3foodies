@@ -3,6 +3,8 @@ var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
 var restList = $('#rest-list');
 var currentLoc = {}
+var zipcodeLast;
+var zipcodeDataFinal;
 var zipCodeData = document.querySelector('#zipCode2');
 var locationGot = false;
 var currentLoc = {
@@ -109,8 +111,7 @@ getLocation();
 
 function getData() {
 
-  var zipCodeDataFinal = zipCodeData.value.trim()
-  storedRestaurants = null;
+  zipCodeDataFinal = zipCodeData.value.trim()
   restList.innerHTML = "";
   const options = {
     method: 'GET',
@@ -120,7 +121,7 @@ function getData() {
     }
   };
 
-  if (storedRestaurants === null) {
+  if (storedRestaurants === null || zipcodeDataFinal != zipcodeLast) {
     fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipCodeDataFinal + '/0', options) // set static zip code for CONSTRUCTION
       .then(response => response.json())
       .then(function (response) {
@@ -129,6 +130,7 @@ function getData() {
         localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
         buildResponse(zipCodeDataFinal);
         console.log('fetched');
+        zipcodeLast = zipCodeDataFinal;
       })
       .catch(err => console.error(err));
   } else {
