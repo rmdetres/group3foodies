@@ -5,7 +5,11 @@ var restList = $('#rest-list');
 var zipcode = "06525";
 var zipcodeData = document.querySelector('#zipCode2');
 var locationGot = false;
-
+var currentLoc = {
+  "latitude": "",
+  "longitude": "",
+  "zipcode": "",
+};
 var shoppingItemsLocalStorage = [];
 
 //button to fetch the restaurant API calls
@@ -89,37 +93,19 @@ function handleFormSubmit(event) {
 }
 
 
-
-
-
-// *function gets the geolocation to determine distance to for the api
-// function getLocation() {
-// 	if (navigator.geolocation) {
-// 		navigator.geolocation.getCurrentPosition(showPosition);
-// 	} else {
-// 		console.log("Geolocation is not supported by this browser.");
-// 	}
-// }
-// function showPosition(position) {
-// 	console.log(position);
-// 	console.log(position.coords.latitude);
-// 	console.log(position.coords.longitude);
-// }
-
-// getLocation();
-
 // *function gets the geolocation to determine distance to for the api
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition);
+    locationGot = true;
 	} else {
 		console.log("Geolocation is not supported by this browser.");
 	}
 }
 function showPosition(position) {
 	console.log(position);
-	console.log(position.coords.latitude);
-	console.log(position.coords.longitude);
+  currentLoc.latitude = position.coords.latitude;
+  currentLoc.longitude = position.coords.longitude;
 }
 
 getLocation();
@@ -184,9 +170,9 @@ function buildResponse(zipcodeDataFinal) {
 
 
 function getDistance(zipcodeDataFinal) {
-  console.log(storedRestaurants);
-  if (!Object.keys(storedRestaurants[0]).includes('distance')) {
-    console.log('fetching distance');
+  console.log(storedRestaurants[0].distance);
+  if (!storedRestaurants[0].hasOwnProperty('distance')) {
+    console.log('fetching time and space');
     for (let i = 0; i < storedRestaurants.length; i++) {
 
       const options = {
@@ -203,8 +189,6 @@ function getDistance(zipcodeDataFinal) {
         .then(response => response.json())
         .then(function (response) {
           console.log(response)
-          console.log(response.features[0].properties.distance)
-          console.log(storedRestaurants[i]);
           storedRestaurants[i].distance = response.features[0].properties.distance;
           storedRestaurants[i].time = response.features[0].properties.time;
         })
