@@ -26,6 +26,19 @@ runLocalStorage();
 // create foods spots list the user enters
 function handleFormSubmit(event) {
   event.preventDefault();
+  
+    //line below updates the variable to pull the latest data, super important
+  shoppingItemsLocalStorage = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
+
+  var shoppingItem = $('input[name="shopping-input"]').val();
+  if (!shoppingItem) {
+    console.log('No shopping item filled out in form!');
+    return;}
+  shoppingListEl.append('<li>' + shoppingItem + '</li>');
+  $('input[name="shopping-input"]').val('');
+  shoppingItemsLocalStorage.push(shoppingItem);
+  console.log(shoppingItemsLocalStorage);
+  saveLocalStorage(shoppingItemsLocalStorage);
 
 }
 
