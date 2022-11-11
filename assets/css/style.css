@@ -130,7 +130,7 @@ label {
   font-size: 1.8rem;
 }
 
-#shopping-list { 
+#shopping-list {
   width: 600px;
   margin: 20px auto;
   text-align: center;
@@ -184,6 +184,7 @@ footer {
   line-height: 75px;
   text-align: center;
 }
+
 /* Bottom right text */
 .text-block {
   position: absolute;
@@ -194,47 +195,54 @@ footer {
   padding-left: 20px;
   padding-right: 20px;
 }
+
 .image-grid {
-    display: flex;
-    width: 90%;
-    margin: 0 auto;  
-    flex-wrap: wrap;   
-    justify-content: center;                          
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .grid-image {
-    display: block;
-    flex-basis: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+  display: block;
+  flex-basis: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 @media only screen and (min-width: 640px) {
-    .grid-image {
-        flex-basis: 50%;
-    }
+  .grid-image {
+    flex-basis: 50%;
+  }
 }
 
 
 @media only screen and (min-width: 960px) {
-    .grid-image {
-        flex-basis: 33.33%;
-    }
+  .grid-image {
+    flex-basis: 33.33%;
+  }
 }
 
 @media only screen and (min-width: 1280px) {
-    .grid-image {
-        flex-basis: 25%;
-    }
+  .grid-image {
+    flex-basis: 25%;
+  }
 }
+
 /* Bottom right text */
 .text-block {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background-color: black;
-    color: white;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
- 
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#rest-list li {
+  width: 300px;
+  margin: 20px auto;
+  text-align: left;
+}
