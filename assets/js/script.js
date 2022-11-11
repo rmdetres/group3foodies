@@ -51,6 +51,7 @@ function runLocalStorage(){
   console.log("is this working1")
    var shoppingitemLocall = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
     
+
    if(shoppingitemLocall != null){
     console.log(shoppingitemLocall);
   for (i = 0; i < shoppingitemLocall.length; i++){ 
