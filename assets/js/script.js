@@ -2,8 +2,8 @@ var storedRestaurants = JSON.parse(localStorage.getItem("storedRestaurants"));
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
 var restList = $('#rest-list');
-var zipcode = "06525";
-var zipcodeData = document.querySelector('#zipCode2');
+var currentLoc = {}
+var zipCodeData = document.querySelector('#zipCode2');
 var locationGot = false;
 var currentLoc = {
   "latitude": "",
@@ -39,40 +39,32 @@ runLocalStorage();
 // })
 
 
-
-
-
 // Create a submit event listener on the form element
- shoppingFormEl.on('submit', handleFormSubmit);
-
- //this function saves local storage for user entered data.
-function saveLocalStorage(shoppingItemsLocalStorage){
-  
-  localStorage.setItem("shoppingItemsLocalStorage", JSON.stringify(shoppingItemsLocalStorage));
-  
-}
-
-
-// function to run the local storage
-function runLocalStorage(){
-   
-  console.log("is this working1")
-   var shoppingitemLocall = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
-    
-
-   if(shoppingitemLocall != null){
-    console.log(shoppingitemLocall);
-  for (i = 0; i < shoppingitemLocall.length; i++){ 
-  shoppingListEl.append('<li>' + shoppingitemLocall[i] + '</li>');
-    console.log("is this working")
-    shoppingItemsLocalStorage.push(shoppingitemLocall[i])
-  }
-  }
-}
-
-
 shoppingFormEl.on('submit', handleFormSubmit);
 
+//this function saves local storage for user entered data.
+function saveLocalStorage(shoppingItemsLocalStorage) {
+
+  localStorage.setItem("shoppingItemsLocalStorage", JSON.stringify(shoppingItemsLocalStorage));
+
+}
+
+// function to run the local storage
+function runLocalStorage() {
+
+  console.log("is this working1")
+  var shoppingItemLocal = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
+  if (shoppingItemLocal != null) {
+    console.log(shoppingItemLocal);
+    for (i = 0; i < shoppingItemLocal.length; i++) {
+      shoppingListEl.append('<p>' + shoppingItemLocal[i] + '</p>');
+      console.log("is this working")
+      shoppingItemsLocalStorage.push(shoppingItemLocal[i])
+    }
+  }
+}
+
+shoppingFormEl.on('submit', handleFormSubmit);
 
 // create foods spots list the user enters
 function handleFormSubmit(event) {
@@ -84,7 +76,8 @@ function handleFormSubmit(event) {
   var shoppingItem = $('input[name="shopping-input"]').val();
   if (!shoppingItem) {
     console.log('No shopping item filled out in form!');
-    return;}
+    return;
+  }
   shoppingListEl.append('<li>' + shoppingItem + '</li>');
   $('input[name="shopping-input"]').val('');
   shoppingItemsLocalStorage.push(shoppingItem);
@@ -109,60 +102,61 @@ function showPosition(position) {
 }
 
 getLocation();
-
-
-
-
-
 //*
 //*WORKING
 // *Gets restaurants near zipcode
 // *Can also do   {state}   and     {state} , {city}
 
 function getData() {
-  
-  var zipcodeDataFinal  = zipcode //zipcodeData.value.trim()
 
+  var zipCodeDataFinal = zipCodeData.value.trim()
+  storedRestaurants = null;
+  restList.innerHTML = "";
   const options = {
     method: 'GET',
     headers: {
-			'X-RapidAPI-Key': 'a9ea82fb84msh7369adc411cc5cbp18f351jsn9f009c32dbe0',
-			'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
+      'X-RapidAPI-Key': 'a9ea82fb84msh7369adc411cc5cbp18f351jsn9f009c32dbe0',
+      'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
     }
   };
-  
-	if (storedRestaurants === null) {
-		fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipcodeDataFinal + '/0', options) // set static zip code for CONSTRUCTION
-			.then(response => response.json())
-			.then(function (response) {
-				storedRestaurants = response.restaurants;
-				localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
-				buildResponse(zipcodeDataFinal);
-				console.log('fetched');
-			})
-			.catch(err => console.error(err));
-	} else {
-		buildResponse(zipcodeDataFinal);
-		console.log('localstoraged');
-	}
 
+  if (storedRestaurants === null) {
+    fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipCodeDataFinal + '/0', options) // set static zip code for CONSTRUCTION
+      .then(response => response.json())
+      .then(function (response) {
+        console.log(response);
+        storedRestaurants = response.restaurants;
+        localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
+        buildResponse(zipCodeDataFinal);
+        console.log('fetched');
+      })
+      .catch(err => console.error(err));
+  } else {
+    buildResponse(zipCodeDataFinal);
+    console.log('localstoraged');
+  }
 }
-// */
-
-
 
 //Function to build layout for zipcode search results
-function buildResponse(zipcodeDataFinal) {
+function buildResponse(zipCodeDataFinal) {
   if (locationGot) {
-    getDistance(zipcodeDataFinal);
+    getDistance(zipCodeDataFinal);
     storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : -1);
     localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
     console.log(storedRestaurants);
   }
+  document.getElementById("rest-list").innerHTML = "";
+
   for (let i = 0; i < storedRestaurants.length; i++) {
     console.log(storedRestaurants[i].restaurantName);
     var foodSpots = document.createElement('li');
-    foodSpots.textContent = storedRestaurants[i].restaurantName;
+    foodSpots.innerHTML = `
+<h2>${storedRestaurants[i].restaurantName}</h2>
+<p>${storedRestaurants[i].address}</p>
+<p>${storedRestaurants[i].cityName}, ${storedRestaurants[i].stateName}, ${storedRestaurants[i].zipCode}</p>
+<p>${storedRestaurants[i].phone}</p>
+<p>${locationGot ? storedRestaurants[i].distance + " distance" : ""}</p>
+    `
     restList.append(foodSpots);
   }
 }
@@ -199,3 +193,8 @@ function getDistance(zipcodeDataFinal) {
     console.log('data was there');
   }
 }
+
+
+
+
+
