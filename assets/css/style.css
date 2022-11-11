@@ -1,3 +1,62 @@
+:root {
+  --butternut: #F2AB15;
+  --yellow: #f9d68d;
+  --mint: #A7AF39;
+  --black: #000000;
+  --darkblue: #31475E;
+  --grey: #eaeaea;
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* header begins */
+
+header {
+  display: flex;
+  width: 100%;
+  background-color: var(--black);
+}
+
+.logo-container {
+  flex: 1;
+}
+
+.nav-container {
+  flex: 1;
+  text-align: right;
+}
+
+.fab {
+  display: inline-block;
+  font-size: 2.2rem;
+  margin: 15px 10px 10px 5px;
+  padding: 3px;
+}
+
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.fa-instagram {
+  background: #125688;
+  color: white;
+}
+
+.social {
+  font-size: 1.8rem;
+  display: inline-block;
+  color: white;
+}
+
 main {
   margin: 3rem auto;
   max-width: 90vw;
@@ -13,44 +72,9 @@ ul li {
   margin: 1.2rem 0;
 }
 
-.myDiv {
-  border: 5px outset red;
-  background-color: lightblue;    
-  text-align: center;
-}
-
-/*added in gallery styling*/
-.image-grid {
-  display: flex;
-  width: 90%;
-  margin: 0 auto;  
-  flex-wrap: wrap;   
-  justify-content: center;                          
-}
-
-.grid-image {
-  display: block;
-  flex-basis: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-@media only screen and (min-width: 640px) {
-  .grid-image {
-      flex-basis: 50%;
+  .myDiv {
+    border: 5px outset red;
+    background-color: lightblue;    
+    text-align: center;
   }
-}
-
-
-@media only screen and (min-width: 960px) {
-  .grid-image {
-      flex-basis: 33.33%;
-  }
-}
-
-@media only screen and (min-width: 1280px) {
-  .grid-image {
-      flex-basis: 25%;
-  }
-}
-
+  

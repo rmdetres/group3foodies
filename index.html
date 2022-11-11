@@ -2,10 +2,19 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Group 3 Foodies Food Spots List</title>
-  <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  </head>
+  <title>Group3Foodies</title>
 </head>
+
 
 
 <body class="bg-dark text-light">
@@ -23,25 +32,19 @@
       <button class="btn btn-danger" id="fetch-button">
         Click Me
       </button>
-      
+      <p id="rest-list"></p>
+
+    </div>
+
+    <h2>Add an item to the list.</h2>
+    <form id="shopping-form">
+      <input type="text" class="form-input w-100" id="shopping-input" name="shopping-input" placeholder="Enter item name" />
       <button class="btn btn-info">Add Restaurant </button>
     </form>
+
     <p id="shopping-list"></p>
   </main>
-  
-  <!--Adding in image gallery-->
-  <div class="image-grid">  
-    <img class="grid-image" src="./Images/Burger*.jpg"/>
 
-    <img class="grid-image" src="./Images/Crepe*.jpg"/>
-    <img class="grid-image"  src="./Images/Dimsum*.jpg"/>
-    <img class="grid-image" src="./Images/Hotdog*.jpg"/>
-    <img class="grid-image" src="./Images/Pasta*.jpg"/>
-    <img class="grid-image" src="./Images/Pizza*.jpg"/>
-    <img class="grid-image" src="./Images/Ribs*.jpg"/>
-    <img class="grid-image" src="./Images/Sushi*.jpg"/>
-    <img class="grid-image" src="./Images/tacos*.jpg">
-</div>
 
 
   
@@ -52,7 +55,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
   <!-- Your JavaScript file -->
-  <script type="text/javascript" src="assets/js/script.js">
+  <script type="text/javascript" src="./assets/js/script.js">
   </script>
 </body>
 
