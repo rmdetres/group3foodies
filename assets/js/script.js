@@ -3,8 +3,15 @@ var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
 var restList = $('#rest-list');
 var currentLoc = {}
+var zipcodeLast;
+var zipcodeDataFinal;
 var zipCodeData = document.querySelector('#zipCode2');
 var locationGot = false;
+var currentLoc = {
+  "latitude": "",
+  "longitude": "",
+  "zipcode": "",
+};
 var shoppingItemsLocalStorage = [];
 
 //button to fetch the restaurant API calls
@@ -81,22 +88,19 @@ function handleFormSubmit(event) {
 }
 
 
-
-
 // *function gets the geolocation to determine distance to for the api
 function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-    console.log("Geolocation is not supported by this browser.");
-  }
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition);
+    locationGot = true;
+	} else {
+		console.log("Geolocation is not supported by this browser.");
+	}
 }
 function showPosition(position) {
-  console.log(position);
-  console.log(position.coords.latitude);
-  console.log(position.coords.longitude);
-  locationGot = true;
-  currentLoc = { longitude: position.coords.longitude, latitude: position.coords.latitude };
+	console.log(position);
+  currentLoc.latitude = position.coords.latitude;
+  currentLoc.longitude = position.coords.longitude;
 }
 
 getLocation();
@@ -107,8 +111,7 @@ getLocation();
 
 function getData() {
 
-  var zipCodeDataFinal = zipCodeData.value.trim()
-  storedRestaurants = null;
+  zipCodeDataFinal = zipCodeData.value.trim()
   restList.innerHTML = "";
   const options = {
     method: 'GET',
@@ -118,7 +121,7 @@ function getData() {
     }
   };
 
-  if (storedRestaurants === null) {
+  if (storedRestaurants === null || zipcodeDataFinal != zipcodeLast) {
     fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipCodeDataFinal + '/0', options) // set static zip code for CONSTRUCTION
       .then(response => response.json())
       .then(function (response) {
@@ -127,6 +130,7 @@ function getData() {
         localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
         buildResponse(zipCodeDataFinal);
         console.log('fetched');
+        zipcodeLast = zipCodeDataFinal;
       })
       .catch(err => console.error(err));
   } else {
@@ -159,11 +163,12 @@ function buildResponse(zipCodeDataFinal) {
   }
 }
 
-function getDistance() {
-  console.log(storedRestaurants);
-  if (!Object.keys(storedRestaurants[0]).includes('distance')) {
-    console.log('fetching distance');
 
+
+function getDistance(zipcodeDataFinal) {
+  console.log(storedRestaurants[0].distance);
+  if (!storedRestaurants[0].hasOwnProperty('distance')) {
+    console.log('fetching time and space');
     for (let i = 0; i < storedRestaurants.length; i++) {
 
       const options = {
@@ -180,8 +185,6 @@ function getDistance() {
         .then(response => response.json())
         .then(function (response) {
           console.log(response)
-          console.log(response.features[0].properties.distance)
-          console.log(storedRestaurants[i]);
           storedRestaurants[i].distance = response.features[0].properties.distance;
           storedRestaurants[i].time = response.features[0].properties.time;
         })
