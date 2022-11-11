@@ -51,11 +51,13 @@ function runLocalStorage(){
   console.log("is this working1")
    var shoppingitemLocall = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
     
-  console.log(shoppingitemLocall);
+   if(shoppingitemLocall != null){
+    console.log(shoppingitemLocall);
   for (i = 0; i < shoppingitemLocall.length; i++){ 
   shoppingListEl.append('<li>' + shoppingitemLocall[i] + '</li>');
     console.log("is this working")
     shoppingItemsLocalStorage.push(shoppingitemLocall[i])
+  }
   }
 }
 
