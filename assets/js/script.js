@@ -6,8 +6,6 @@ var currentLoc = {
   "longitude": "",
   "zipcode": "",
 };
-
-var storedRestaurants = "";
 var shoppingFormEl = $('#shopping-form');
 var shoppingListEl = $('#shopping-list');
 var restList = $('#rest-list');
@@ -18,14 +16,16 @@ var locationGot = false;
 var shoppingItemsLocalStorage = [];
 
 //button to fetch the restaurant API calls
-var fetchButton = document.getElementById('fetch-button');
-fetchButton.addEventListener('click', getData);
+var fetchButton = $('#fetch-button').on('click', function (event) {
+  event.preventDefault();
+  getData();
+});
 
 runLocalStorage();
 
 // create foods spots list the user enters
 function handleFormSubmit(event) {
-	event.preventDefault();
+  event.preventDefault();
 
 }
 
@@ -36,23 +36,25 @@ function handleFormSubmit(event) {
 // Create a submit event listener on the form element
 shoppingFormEl.on('submit', handleFormSubmit);
 
- //this function saves local storage for user entered data.
-function saveLocalStorage(shoppingItemsLocalStorage){
-  
+//this function saves local storage for user entered data.
+function saveLocalStorage(shoppingItemsLocalStorage) {
+
   localStorage.setItem("shoppingItemsLocalStorage", JSON.stringify(shoppingItemsLocalStorage));
-  
+
 }
 
 
 // function to run the local storage
-function runLocalStorage(){
+function runLocalStorage() {
 
   console.log("is this working1")
   var shoppingItem = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
-  console.log(shoppingItem);
-  for (i = 0; i < shoppingItem.length; i++){ 
-  shoppingListEl.append('<li>' + shoppingItem[i] + '</li>');
-    console.log("is this working")
+  if (shoppingItem) {
+    console.log(shoppingItem);
+    for (i = 0; i < shoppingItem.length; i++) {
+      shoppingListEl.append('<li>' + shoppingItem[i] + '</li>');
+      console.log("is this working")
+    }
   }
 }
 
@@ -143,7 +145,8 @@ function getData() {
 function buildResponse(zipcodeDataFinal) {
   if (locationGot) {
     getDistance(zipcodeDataFinal);
-    storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0));
+    storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : -1);
+    // .sort((a, b) => (a.color > b.color) ? 1 : -1)
     console.log(storedRestaurants);
   }
   for (let i = 0; i < storedRestaurants.length; i++) {
