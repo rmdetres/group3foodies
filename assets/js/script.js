@@ -13,7 +13,7 @@ var zipcode = "06525";
 var zipcodeData = document.querySelector('#zipCode2');
 var locationGot = false;
 
-var shoppingItemsLocalStorage = [];
+var shoppingItemsLocalStorage = [''];
 
 //button to fetch the restaurant API calls
 var fetchButton = $('#fetch-button').on('click', function (event) {
@@ -24,12 +24,11 @@ var fetchButton = $('#fetch-button').on('click', function (event) {
 runLocalStorage();
 
 // create foods spots list the user enters
-function handleFormSubmit(event) {
+var shoppingItemsBtn = $('shopping-input-button').on('click', function (event) {
   event.preventDefault();
   
     //line below updates the variable to pull the latest data, super important
   shoppingItemsLocalStorage = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
-
   var shoppingItem = $('input[name="shopping-input"]').val();
   if (!shoppingItem) {
     console.log('No shopping item filled out in form!');
@@ -40,14 +39,14 @@ function handleFormSubmit(event) {
   console.log(shoppingItemsLocalStorage);
   saveLocalStorage(shoppingItemsLocalStorage);
 
-}
+})
 
 
 
 
 
 // Create a submit event listener on the form element
-shoppingFormEl.on('submit', handleFormSubmit);
+// shoppingFormEl.on('submit', handleFormSubmit);
 
 //this function saves local storage for user entered data.
 function saveLocalStorage(shoppingItemsLocalStorage) {
@@ -61,8 +60,8 @@ function saveLocalStorage(shoppingItemsLocalStorage) {
 function runLocalStorage() {
 
   console.log("is this working1")
-  var shoppingItem = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
-  if (shoppingItem) {
+  shoppingItemsLocalStorage = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
+  if (shoppingItemsLocalStorage) {
     console.log(shoppingItem);
     for (i = 0; i < shoppingItem.length; i++) {
       shoppingListEl.append('<li>' + shoppingItem[i] + '</li>');
