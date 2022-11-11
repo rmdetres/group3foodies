@@ -146,7 +146,7 @@ function buildResponse(zipcodeDataFinal) {
   if (locationGot) {
     getDistance(zipcodeDataFinal);
     storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : -1);
-    // .sort((a, b) => (a.color > b.color) ? 1 : -1)
+    localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
     console.log(storedRestaurants);
   }
   for (let i = 0; i < storedRestaurants.length; i++) {
@@ -185,49 +185,7 @@ function getDistance(zipcodeDataFinal) {
         .catch(err => console.error(err));
       ;
     }
-
-    // iterate fetch for each item, assign distance to storedRestaurants[i].distance = meters
-    //
-    //sort array by the storedRestaurants[i]distance
-
-    // localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
   } else {
     console.log('data was there');
   }
 }
-// *
-// *WORKING // 
-// distance: (in meters) = this.steps.0.distance.car.distance
-// est Time: (in seconds) = this.steps.0.distance.car.duration
-
-// const options = {
-// 	method: 'GET',
-// 	headers: {
-// 		'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
-// 		'X-RapidAPI-Host': 'distanceto.p.rapidapi.com'
-// 	}
-// };
-
-// fetch('https://distanceto.p.rapidapi.com/get?route=[{"t":"New York, New York"},{"t":"Bethlehem, Connecticut"}]&car=true', options)
-// 	.then(response => response.json())
-// 	.then(response => console.log(response))
-// 	.catch(err => console.error(err));
-
-//   */
-
-
-// *
-// *WORKING // DISTANCE BETWEEN TWO GEO LOCS
-// *would need an additional way to find user's geo loc*
-// const options = {
-// 	method: 'GET',
-// 	headers: {
-// 		'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
-// 		'X-RapidAPI-Host': 'trueway-matrix.p.rapidapi.com'
-// 	}
-// };
-
-// fetch('https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=40.629041%2C-74.025606%3B40.630099%2C-73.993521%3B40.644895%2C-74.013818%3B40.627177%2C-73.980853&destinations=40.629041%2C-74.025606%3B40.630099%2C-73.993521%3B40.644895%2C-74.013818%3B40.627177%2C-73.980853', options)
-// 	.then(response => response.json())
-// 	.then(response => console.log(response))
-// 	.catch(err => console.error(err));
