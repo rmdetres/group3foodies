@@ -83,6 +83,47 @@ function buildResponse() {
 
   document.getElementById("rest-list").innerHTML = "";
 
+
+//   var restaurantResult = $('<div>')
+//       .addClass('col-12 restaurantResult rest-pos-'+ j + '');
+
+//   var resultNumber = $('<div>')
+//       .addClass('col-1 resultNumber-' + j)
+
+//   var restaurantInfo = $('<div>')
+//       .addClass('col-7 restaurantInfo')
+
+//   var restaurantDistance = $('<div>')
+//       .addClass('col-2 distance');
+
+//   var restaurantTime = $('<div>')
+//       .addClass('col-1 time')
+//       .text(schedule[i].apptDesc);
+
+//  checkFavorited(); //check if its been favorited
+
+//   var addFavorite = $('<button>')
+//       .addClass('col-1 addFavorite')
+//       .attr({
+//           type: 'button',
+//       })
+//       .on('click', function () {
+//           var hour = $(this).siblings().first().text();
+//           var appt = $(this).siblings().last().children().text();
+//           saveSchedule(hour, appt);
+//           $(this).attr("disabled", true).css('background-color', "#d3d3d3");
+//           saved.text("Saved!");
+//       });
+
+//   var saveIcon = $('<i>')
+//       .addClass('fas fa-save fa-2x');
+
+//   $(scheduleContainer).append(apptRow);
+//   $(apptRow).append(apptTime);
+//   $(apptRow).append(apptSubject);
+//   $(apptSubject).append(apptInput);
+//   $(apptRow).append(apptSave);
+//   $(apptSave).append(saveIcon);
   for (let j = 0; j < storedRestaurants.length; j++) {
     console.log(storedRestaurants[j].time);
     var foodSpots = document.createElement('li');
