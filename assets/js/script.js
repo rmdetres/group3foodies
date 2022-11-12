@@ -90,7 +90,7 @@ function buildResponse() {
 <h2>${storedRestaurants[j].restaurantName}</h2>
 <p>${storedRestaurants[j].address}</p>
 <p>${storedRestaurants[j].cityName}, ${storedRestaurants[j].stateName} ${storedRestaurants[j].zipCode}</p>
-<p>${storedRestaurants[j].phone}</p>
+<p>${"Phone Number: " + storedRestaurants[j].phone}</p>
 <p>${Math.trunc(storedRestaurants[j].distance / 1609) + " miles away"}</p>
     `;
     restList.append(foodSpots);
