@@ -88,17 +88,19 @@ function buildResponse() {
 //       .addClass('col-12 restaurantResult rest-pos-'+ j + '');
 
 //   var resultNumber = $('<div>')
-//       .addClass('col-1 resultNumber-' + j)
+//       .addClass('col-1 justify-center resultNumber-' + j)
+//       .text(j + '.');
 
 //   var restaurantInfo = $('<div>')
-//       .addClass('col-7 restaurantInfo')
+//       .addClass('col-7 restaurantInfo');
 
 //   var restaurantDistance = $('<div>')
-//       .addClass('col-2 distance');
+//       .addClass('col-2 distance')
+//      .text(storedRestaurants[j].time);
 
 //   var restaurantTime = $('<div>')
 //       .addClass('col-1 time')
-//       .text(schedule[i].apptDesc);
+//       .text(storedRestaurants[j].time);
 
 //  checkFavorited(); //check if its been favorited
 
@@ -115,15 +117,16 @@ function buildResponse() {
 //           saved.text("Saved!");
 //       });
 
-//   var saveIcon = $('<i>')
-//       .addClass('fas fa-save fa-2x');
+//   var favIcon = $('<i>')
+//       .addClass('fas fa-heart fa-2x');
 
-//   $(scheduleContainer).append(apptRow);
-//   $(apptRow).append(apptTime);
-//   $(apptRow).append(apptSubject);
-//   $(apptSubject).append(apptInput);
-//   $(apptRow).append(apptSave);
-//   $(apptSave).append(saveIcon);
+//   $(rest-list).append(restaurantResult);
+//   $(restaurantResult).append(resultNumber);
+//   $(restaurantResult).append(restaurantInfo);
+//   $(restaurantResult).append(restaurantDistance);
+//   $(restaurantResult).append(restaurantTime);
+//   $(restaurantResult).append(addFavorite);
+//   $(addFavorite).append(favIcon);
   for (let j = 0; j < storedRestaurants.length; j++) {
     console.log(storedRestaurants[j].time);
     var foodSpots = document.createElement('li');
