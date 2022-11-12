@@ -89,9 +89,9 @@ function buildResponse() {
     foodSpots.innerHTML = `
 <h2>${storedRestaurants[j].restaurantName}</h2>
 <p>${storedRestaurants[j].address}</p>
-<p>${storedRestaurants[j].cityName}, ${storedRestaurants[j].stateName}, ${storedRestaurants[j].zipCode}</p>
+<p>${storedRestaurants[j].cityName}, ${storedRestaurants[j].stateName} ${storedRestaurants[j].zipCode}</p>
 <p>${storedRestaurants[j].phone}</p>
-<p>${locationGot ? storedRestaurants[j].distance + " distance" : ""}</p>
+<p>${Math.trunc(storedRestaurants[j].distance / 1609) + " miles away"}</p>
     `;
     restList.append(foodSpots);
     fetchButton.attr("disabled", false);
@@ -115,7 +115,7 @@ async function getDistance() {
       };
 
       console.log(storedRestaurants[i]);
-      
+
       await fetch('https://route-and-directions.p.rapidapi.com/v1/routing?waypoints=' + currentLoc.latitude + ',' + currentLoc.longitude + '|' + storedRestaurants[i].latitude + ',' + storedRestaurants[i].longitude + '&mode=walk', options)
         .then(response => response.json())
         .then(function (response) {
@@ -123,7 +123,7 @@ async function getDistance() {
           storedRestaurants[i].distance = response.features[0].properties.distance;
           storedRestaurants[i].time = response.features[0].properties.time;
           console.log(storedRestaurants[i].distance)
-          
+
           // storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : -1);
         })
         .catch(err => console.error(err));
