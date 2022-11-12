@@ -33,24 +33,26 @@
     <!-- input container -->
     <div class="input-container">
       <form id="zipCode">
-        <label>Enter your Zip Code</label>
+        <div class="label">
+          <label class="enterzip">Enter your Zip Code</label>
+          <label class="favorites">Show Favorites</label>
+        </div>
         <input type="text" id="zipCode2" name="zipCode-input" placeholder="What are you in a mood for?" />
         <button id="fetch-button">Search on</button>
         <p class="sub-title">#Delectable&nbsp;<i class='fas fa-pepper-hot'></i></p>
       </form>
     </div>
   </main>
-  <div>
-    <!-- result container -->
-    <div class="result-container">
-      <ul id="rest-list"></ul>
-    </div>
-    <!-- favorites -->
-    <form id="shopping-form">
-      <input type="text" id="shopping-input" name="shopping-input" placeholder="Enter Restaurant Name" />
-      <button class="shopping-input-button">Add to Favorites</button>
-    </form>
-    <p id="shopping-list"></p>
+  <!-- result container -->
+  <div class="result-container">
+    <ul id="rest-list"></ul>
+  </div>
+  <!-- favorites -->
+  <form id="shopping-form">
+    <input type="text" id="shopping-input" name="shopping-input" placeholder="Enter Restaurant Name" />
+    <button class="shopping-input-button">Add to Favorites</button>
+  </form>
+  <p id="shopping-list"></p>
   </div>
   <!-- image grid -->
   <div class="container-fluid">
