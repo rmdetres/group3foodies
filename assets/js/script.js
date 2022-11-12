@@ -5,6 +5,7 @@ var restList = $('#rest-list');
 var currentLoc = {}
 var zipCodeDataFinal;
 var zipCodeData = document.querySelector('#zipCode2');
+var imageList = ['Burger.jpg', 'Crepe.jpg', 'Dimsum.jpg', 'Hotdog.jpg', 'Pasta.jpg', 'Pizza.jpg', 'Ribs.jpg', 'Sushi.jpg', 'tacos.jpg'];
 var locationGot = false;
 var storedLoc = JSON.parse(localStorage.getItem("currentLoc"));
 var currentLoc = {
@@ -101,6 +102,8 @@ async function getDistance() {
   if (!storedRestaurants[0].hasOwnProperty('distance')) {
     console.log('fetching time and space');
     for (let i = 0; i < storedRestaurants.length; i++) {
+      document.getElementById("rest-list").innerHTML = '<img src="./assets/images/' + imageList[Math.floor(Math.random() * imageList.length)] + '" />';
+
 
       const options = {
         method: 'GET',
@@ -111,7 +114,7 @@ async function getDistance() {
       };
 
       console.log(storedRestaurants[i]);
-
+      
       await fetch('https://route-and-directions.p.rapidapi.com/v1/routing?waypoints=' + currentLoc.latitude + ',' + currentLoc.longitude + '|' + storedRestaurants[i].latitude + ',' + storedRestaurants[i].longitude + '&mode=walk', options)
         .then(response => response.json())
         .then(function (response) {
@@ -119,6 +122,7 @@ async function getDistance() {
           storedRestaurants[i].distance = response.features[0].properties.distance;
           storedRestaurants[i].time = response.features[0].properties.time;
           console.log(storedRestaurants[i].distance)
+          
           // storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : -1);
         })
         .catch(err => console.error(err));
@@ -159,6 +163,7 @@ function getData() {
           console.log('fetched');
           currentLoc.zipcodeLast = zipCodeDataFinal;
           if (locationGot) {
+            document.getElementById("rest-list").innerHTML = '<img src="./assets/images/' + imageList[Math.floor(Math.random() * imageList.length)] + '" />';
             getDistance();
             localStorage.setItem("currentLoc", JSON.stringify(currentLoc));
 
@@ -188,6 +193,6 @@ shoppingFormEl.on('submit', handleFormSubmit);
 
 runLocalStorage();
 getLocation();
-
+document.getElementById("rest-list").innerHTML = '<img src="./assets/images/' + imageList[Math.floor(Math.random() * imageList.length)] + '" />';
 
 
