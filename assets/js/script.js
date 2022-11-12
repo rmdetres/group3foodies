@@ -17,13 +17,13 @@ if (storedLoc !== null) {
   currentLoc = storedLoc;
   console.log(storedLoc);
 }
-var shoppingItemsLocalStorage = [];
+var favoriteRestaurants = [];
 
 
 //this function saves local storage for user entered data.
-function saveLocalStorage(shoppingItemsLocalStorage) {
+function saveLocalStorage(favoriteRestaurants) {
 
-  localStorage.setItem("shoppingItemsLocalStorage", JSON.stringify(shoppingItemsLocalStorage));
+  localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
 
 }
 
@@ -31,13 +31,13 @@ function saveLocalStorage(shoppingItemsLocalStorage) {
 function runLocalStorage() {
 
   console.log("is this working1")
-  var shoppingItemLocal = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
+  var shoppingItemLocal = JSON.parse(localStorage.getItem("favoriteRestaurants"));
   if (shoppingItemLocal != null) {
     console.log(shoppingItemLocal);
     for (let i = 0; i < shoppingItemLocal.length; i++) {
       shoppingListEl.append('<p>' + shoppingItemLocal[i] + '</p>');
       console.log("is this working")
-      shoppingItemsLocalStorage.push(shoppingItemLocal[i])
+      favoriteRestaurants.push(shoppingItemLocal[i])
     }
   }
 }
@@ -48,7 +48,7 @@ function handleFormSubmit(event) {
   event.preventDefault();
 
   //line below updates the variable to pull the latest data, super important
-  //shoppingItemsLocalStorage = JSON.parse(localStorage.getItem("shoppingItemsLocalStorage"));
+  //favoriteRestaurants = JSON.parse(localStorage.getItem("favoriteRestaurants"));
 
   var shoppingItem = $('input[name="shopping-input"]').val();
   if (!shoppingItem) {
@@ -57,9 +57,9 @@ function handleFormSubmit(event) {
   }
   shoppingListEl.append('<li>' + shoppingItem + '</li>');
   $('input[name="shopping-input"]').val('');
-  shoppingItemsLocalStorage.push(shoppingItem);
-  console.log(shoppingItemsLocalStorage);
-  saveLocalStorage(shoppingItemsLocalStorage);
+  favoriteRestaurants.push(shoppingItem);
+  console.log(favoriteRestaurants);
+  saveLocalStorage(favoriteRestaurants);
 }
 
 
@@ -79,12 +79,12 @@ function showPosition(position) {
 }
 
 //Function to build layout for zipcode search results
-function buildResponse() {
+function buildResponse(dataSource, buildOption) { //need input dataSource = (storedRestaurants || favoriteRestaurants)   &&  buildOption = ( 'search' || 'saved')
 
   document.getElementById("rest-list").innerHTML = "";
 
-  for (let j = 0; j < storedRestaurants.length; j++) {
-    console.log(storedRestaurants[j].time);
+  for (let j = 0; j < dataSource.length; j++) {
+    console.log(dataSource[j].time);
     var restaurantResult = $('<div>')
       .addClass('row restaurantResult rest-pos-' + j + '');
 
@@ -96,47 +96,58 @@ function buildResponse() {
       .addClass('col-6 restaurantInfo align-items-start');
 
     var restaurantName = $('<h2>')
-      .text((j + 1) + '. ' +storedRestaurants[j].restaurantName);
+      .text((j + 1) + '. ' + dataSource[j].restaurantName);
 
     var restaurantAddress = $('<p>')
-      .text(storedRestaurants[j].address);
+      .text(dataSource[j].address);
 
     var restaurantPostal = $('<p>')
-      .text(storedRestaurants[j].cityName + ',' + storedRestaurants[j].stateName + ' ' + storedRestaurants[j].zipCode);
+      .text(dataSource[j].cityName + ',' + dataSource[j].stateName + ' ' + dataSource[j].zipCode);
 
     var restaurantPhone = $('<p>')
-      .text(storedRestaurants[j].phone);
+      .text(dataSource[j].phone);
 
     var restaurantDistance = $('<div>')
       .addClass('col-2 distance')
-      .text(Math.trunc(storedRestaurants[j].distance / 1609));
+      .text(Math.trunc(dataSource[j].distance / 1609));
 
-      var milesAway = $('<p>')
+    var milesAway = $('<p>')
       .addClass('milesAway subtext')
       .text("miles away");
 
     var restaurantTime = $('<div>')
       .addClass('col-2 time')
-      .text(new Date(storedRestaurants[j].time * 1000).toISOString().substr(11, 8));
+      .text(new Date(dataSource[j].time * 1000).toISOString().substr(11, 8));
 
-      var onFoot = $('<p>')
+    var onFoot = $('<p>')
       .addClass('onFoot subtext')
       .text("on foot");
+    if (buildOption === 'search') {
+      var addFavorite = $('<button>')
+        .addClass('col-2 addFavorite')
+        .attr({
+          type: 'button',
+        })
+        .on('click', function () {
+          var listPos = $(this).siblings().first().text().split('.');
+          console.log(listPos[0] - 1);
+          favoriteRestaurants.push(dataSource[listPos[0] - 1]);
+          console.log(favoriteRestaurants);
+          localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
+          $(this).attr("disabled", true); //.css('background-color', "#d3d3d3");
+        });
+      // diables button if already favorited
+      if (favoriteRestaurants.some(e => e.restaurantName === dataSource[j].restaurantName)) {
+        addFavorite.attr("disabled", true);
+      }
+      var favIcon = $('<i>')
+        .addClass('fas fa-heart fa-2x');
+    } else if (buildOption === 'saved') {
 
-    var addFavorite = $('<button>')
-      .addClass('col-2 addFavorite')
-      .attr({
-        type: 'button',
-      })
-      .on('click', function () {
-        var listPos = $(this).siblings().first().text().split('.');
-        console.log(listPos[0] - 1);
-        // saveFavorite(listPos);
-        $(this).attr("disabled", true); //.css('background-color', "#d3d3d3");
-      });
-    // checkFavorited(); //check if its been favorited & disables addFavorite
-    var favIcon = $('<i>')
-      .addClass('fas fa-heart fa-2x');
+
+    } else {
+      console.log('buildOption Error');
+    }
 
     $(restList).append(restaurantResult);
     $(restaurantResult).append(restaurantInfo);
@@ -185,7 +196,7 @@ async function getDistance() {
         .catch(err => console.error(err));
       localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
     }
-    buildResponse();
+    buildResponse(storedRestaurants, 'search');
   } else {
     console.log('data was there');
   }
@@ -213,6 +224,7 @@ function getData() {
         console.log(response);
         if (response === null) {
           document.getElementById("rest-list").innerHTML = "No Restaurants";
+          currentLoc.zipcodeLast = zipCodeDataFinal;
         } else {
           storedRestaurants = response.restaurants;
           localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
@@ -231,7 +243,7 @@ function getData() {
       })
       .catch(err => console.error(err));
   } else {
-    buildResponse();
+    buildResponse(storedRestaurants, 'search');
     console.log('localstoraged');
   }
 }
