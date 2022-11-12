@@ -150,9 +150,12 @@ main {
 }
 
 #rest-list li {
-  width: 300px;
+  width: 500px;
   margin: 20px auto;
   text-align: left;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 #shopping-list {
@@ -266,6 +269,3 @@ footer {
   line-height: 75px;
   text-align: center;
 }
-
-Footer © 2022 GitHub,
-Inc. Footer navigation Terms Privacy Security Status Docs Contact GitHub Pricing API Training Blog About
