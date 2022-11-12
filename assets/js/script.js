@@ -85,17 +85,63 @@ function buildResponse() {
 
   for (let j = 0; j < storedRestaurants.length; j++) {
     console.log(storedRestaurants[j].time);
-    var foodSpots = document.createElement('li');
-    foodSpots.innerHTML = `
-<h2>${storedRestaurants[j].restaurantName}</h2>
-<p>${storedRestaurants[j].address}</p>
-<p>${storedRestaurants[j].cityName}, ${storedRestaurants[j].stateName} ${storedRestaurants[j].zipCode}</p>
-<p>${"Phone Number: " + storedRestaurants[j].phone}</p>
-<p>${Math.trunc(storedRestaurants[j].distance / 1609) + " miles away"}</p>
-    `;
-    restList.append(foodSpots);
-    fetchButton.attr("disabled", false);
+    var restaurantResult = $('<div>')
+      .addClass('row restaurantResult rest-pos-' + j + '');
+
+    // var resultNumber = $('<div>')
+    //   .addClass('col-0 justify-center resultNumber-' + j)
+    //   .text(j + '.');
+
+    var restaurantInfo = $('<div>')
+      .addClass('col-6 restaurantInfo align-items-start');
+
+    var restaurantName = $('<h2>')
+      .text((j + 1) + '. ' +storedRestaurants[j].restaurantName);
+
+    var restaurantAddress = $('<p>')
+      .text(storedRestaurants[j].address);
+
+    var restaurantPostal = $('<p>')
+      .text(storedRestaurants[j].cityName + ',' + storedRestaurants[j].stateName + ' ' + storedRestaurants[j].zipCode);
+
+    var restaurantPhone = $('<p>')
+      .text(storedRestaurants[j].phone);
+
+    var restaurantDistance = $('<div>')
+      .addClass('col-2 distance')
+      .text(Math.trunc(storedRestaurants[j].distance / 1609) + " miles away");
+
+    var restaurantTime = $('<div>')
+      .addClass('col-2 time')
+      .text(storedRestaurants[j].time);
+
+    var addFavorite = $('<button>')
+      .addClass('col-2 addFavorite')
+      .attr({
+        type: 'button',
+      })
+      .on('click', function () {
+        var listPos = $(this).siblings().first().text().split('.');
+        console.log(listPos[0] - 1);
+        // saveFavorite(listPos);
+        $(this).attr("disabled", true); //.css('background-color', "#d3d3d3");
+      });
+    // checkFavorited(); //check if its been favorited & disables addFavorite
+    var favIcon = $('<i>')
+      .addClass('fas fa-heart fa-2x');
+
+    $(restList).append(restaurantResult);
+    $(restaurantResult).append(restaurantInfo);
+    $(restaurantInfo).append(restaurantName);
+    $(restaurantInfo).append(restaurantAddress);
+    $(restaurantInfo).append(restaurantPostal);
+    $(restaurantInfo).append(restaurantPhone);
+    $(restaurantResult).append(restaurantDistance);
+    $(restaurantResult).append(restaurantTime);
+    $(restaurantResult).append(addFavorite);
+    $(addFavorite).append(favIcon);
   }
+  fetchButton.attr("disabled", false);
 }
 
 async function getDistance() {
