@@ -107,13 +107,25 @@ function buildResponse(dataSource, buildOption) { //need input dataSource = (sto
     var restaurantPhone = $('<p>')
       .text(dataSource[j].phone);
 
-    var restaurantDistance = $('<div>')
+    if (dataSource[j].distance > 160) {
+
+      var restaurantDistance = $('<div>')
+        .addClass('col-2 distance')
+        .text(Math.round((dataSource[j].distance / 1609) * 10) / 10);
+
+      var milesAway = $('<p>')
+        .addClass('milesAway subtext')
+        .text("miles away");
+    } else {
+
+      var restaurantDistance = $('<div>')
       .addClass('col-2 distance')
-      .text(Math.trunc(dataSource[j].distance / 1609));
+      .text(Math.round(dataSource[j].distance / .304))
 
     var milesAway = $('<p>')
       .addClass('milesAway subtext')
-      .text("miles away");
+      .text("feet away");
+    }
 
     var restaurantTime = $('<div>')
       .addClass('col-2 time')
@@ -133,6 +145,7 @@ function buildResponse(dataSource, buildOption) { //need input dataSource = (sto
           var listPos = $(this).siblings().first().text().split('.');
           console.log(listPos[0] - 1);
           favoriteRestaurants.push(dataSource[listPos[0] - 1]);
+          favoriteRestaurants.sort((c1, c2) => (c1.distance > c2.distance) ? 1 : (c1.distance < c2.distance) ? -1 : 0);
           console.log(favoriteRestaurants);
           localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
           $(this).attr("disabled", true);
@@ -148,23 +161,23 @@ function buildResponse(dataSource, buildOption) { //need input dataSource = (sto
     } else if (buildOption === 'saved') {
 
       var addFavorite = $('<button>')
-      .addClass('col-2 delFavorite')
-      .attr({
-        type: 'button',
-      })
-      .on('click', function () {
-        var listPos = $(this).siblings().first().text().split('.');
-        console.log(listPos[0] - 1);
-        favoriteRestaurants.splice(dataSource[listPos[0] - 1], 1);
-        console.log(favoriteRestaurants);
-        localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
-        $(this).attr("disabled", true);
-        listPos = $(this).parent()
-        listPos.innerHTML = "";
-      });
+        .addClass('col-2 delFavorite')
+        .attr({
+          type: 'button',
+        })
+        .on('click', function () {
+          var listPos = $(this).siblings().first().text().split('.');
+          console.log(listPos[0] - 1);
+          favoriteRestaurants.splice(dataSource[listPos[0] - 1], 1);
+          console.log(favoriteRestaurants);
+          localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
+          $(this).attr("disabled", true);
+          // listPos = $(this).parent()
+          // listPos.innerHTML = "";
+        });
 
-    var favIcon = $('<i>')
-      .addClass('fas fa-trash fa-2x');
+      var favIcon = $('<i>')
+        .addClass('fas fa-trash fa-2x');
 
     } else {
       console.log('buildOption Error');
@@ -211,7 +224,7 @@ async function getDistance() {
           storedRestaurants[i].distance = response.features[0].properties.distance;
           storedRestaurants[i].time = response.features[0].properties.time;
           console.log(storedRestaurants[i].distance)
-
+          storedRestaurants.sort((c1, c2) => (c1.distance > c2.distance) ? 1 : (c1.distance < c2.distance) ? -1 : 0);
           // storedRestaurants.sort((a, b) => (a.distance > b.distance) ? 1 : -1);
         })
         .catch(err => console.error(err));
@@ -246,6 +259,8 @@ function getData() {
         if (response === null) {
           document.getElementById("rest-list").innerHTML = "No Restaurants";
           currentLoc.zipcodeLast = zipCodeDataFinal;
+          localStorage.setItem("currentLoc", JSON.stringify(currentLoc));
+          fetchButton.attr("disabled", false);
         } else {
           storedRestaurants = response.restaurants;
           localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
