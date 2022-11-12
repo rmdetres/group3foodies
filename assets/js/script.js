@@ -94,6 +94,7 @@ function buildResponse() {
 <p>${locationGot ? storedRestaurants[j].distance + " distance" : ""}</p>
     `;
     restList.append(foodSpots);
+    fetchButton.attr("disabled", false);
   }
 }
 
@@ -185,6 +186,7 @@ function getData() {
 //button to fetch the restaurant API calls
 var fetchButton = $('#fetch-button').on('click', function (event) {
   event.preventDefault();
+  fetchButton.attr("disabled", true);
   getData();
 });
 
