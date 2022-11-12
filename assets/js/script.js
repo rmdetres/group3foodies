@@ -96,7 +96,7 @@ function buildResponse() {
       .addClass('col-6 restaurantInfo align-items-start');
 
     var restaurantName = $('<h2>')
-      .text(j + '. ' +storedRestaurants[j].restaurantName);
+      .text((j + 1) + '. ' +storedRestaurants[j].restaurantName);
 
     var restaurantAddress = $('<p>')
       .text(storedRestaurants[j].address);
@@ -122,7 +122,7 @@ function buildResponse() {
       })
       .on('click', function () {
         var listPos = $(this).siblings().first().text().split('.');
-        console.log(listPos[0]);
+        console.log(listPos[0] - 1);
         // saveFavorite(listPos);
         $(this).attr("disabled", true); //.css('background-color', "#d3d3d3");
       });

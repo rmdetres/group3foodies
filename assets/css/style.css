@@ -149,6 +149,14 @@ main {
   font-size: 1.8rem;
 }
 
+.restaurantInfo {
+  text-align: start;
+}
+
+.restaurantInfo p {
+  margin-left: 20px;
+}
+
 #rest-list li {
   width: 500px;
   margin: 20px auto;
