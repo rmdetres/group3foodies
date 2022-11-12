@@ -123,6 +123,7 @@ function buildResponse(dataSource, buildOption) { //need input dataSource = (sto
       .addClass('onFoot subtext')
       .text("on foot");
     if (buildOption === 'search') {
+
       var addFavorite = $('<button>')
         .addClass('col-2 addFavorite')
         .attr({
@@ -134,7 +135,8 @@ function buildResponse(dataSource, buildOption) { //need input dataSource = (sto
           favoriteRestaurants.push(dataSource[listPos[0] - 1]);
           console.log(favoriteRestaurants);
           localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
-          $(this).attr("disabled", true); //.css('background-color', "#d3d3d3");
+          $(this).attr("disabled", true);
+
         });
       // diables button if already favorited
       if (favoriteRestaurants.some(e => e.restaurantName === dataSource[j].restaurantName)) {
@@ -142,8 +144,27 @@ function buildResponse(dataSource, buildOption) { //need input dataSource = (sto
       }
       var favIcon = $('<i>')
         .addClass('fas fa-heart fa-2x');
+
     } else if (buildOption === 'saved') {
 
+      var addFavorite = $('<button>')
+      .addClass('col-2 delFavorite')
+      .attr({
+        type: 'button',
+      })
+      .on('click', function () {
+        var listPos = $(this).siblings().first().text().split('.');
+        console.log(listPos[0] - 1);
+        favoriteRestaurants.splice(dataSource[listPos[0] - 1], 1);
+        console.log(favoriteRestaurants);
+        localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
+        $(this).attr("disabled", true);
+        listPos = $(this).parent()
+        listPos.innerHTML = "";
+      });
+
+    var favIcon = $('<i>')
+      .addClass('fas fa-trash fa-2x');
 
     } else {
       console.log('buildOption Error');
@@ -258,6 +279,13 @@ var fetchButton = $('#fetch-button').on('click', function (event) {
   getData();
 });
 
+var favoritesTab = $('#toSaved').on('click', function (event) {
+  buildResponse(favoriteRestaurants, 'saved');
+});
+
+var resultTab = $('#toResult').on('click', function (event) {
+  buildResponse(storedRestaurants, 'search');
+});
 // Create a submit event listener on the form element
 shoppingFormEl.on('submit', handleFormSubmit);
 
