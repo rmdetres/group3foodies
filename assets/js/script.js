@@ -109,11 +109,19 @@ function buildResponse() {
 
     var restaurantDistance = $('<div>')
       .addClass('col-2 distance')
-      .text(Math.trunc(storedRestaurants[j].distance / 1609) + " miles away");
+      .text(Math.trunc(storedRestaurants[j].distance / 1609));
+
+      var milesAway = $('<p>')
+      .addClass('milesAway subtext')
+      .text("miles away");
 
     var restaurantTime = $('<div>')
       .addClass('col-2 time')
-      .text(storedRestaurants[j].time);
+      .text(new Date(storedRestaurants[j].time * 1000).toISOString().substr(11, 8));
+
+      var onFoot = $('<p>')
+      .addClass('onFoot subtext')
+      .text("on foot");
 
     var addFavorite = $('<button>')
       .addClass('col-2 addFavorite')
@@ -137,7 +145,9 @@ function buildResponse() {
     $(restaurantInfo).append(restaurantPostal);
     $(restaurantInfo).append(restaurantPhone);
     $(restaurantResult).append(restaurantDistance);
+    $(restaurantDistance).append(milesAway);
     $(restaurantResult).append(restaurantTime);
+    $(restaurantTime).append(onFoot);
     $(restaurantResult).append(addFavorite);
     $(addFavorite).append(favIcon);
   }
