@@ -55,6 +55,7 @@ header {
   font-size: 1.8rem;
   display: inline-block;
   color: white;
+  margin-top: 25px;
 }
 
 /* main container with input form */
@@ -142,19 +143,24 @@ main {
   text-align: center;
 }
 
+/* result container section */
 .result-container {
-  width: 600px;
+  width: 500px;
   margin: 20px auto;
   text-align: center;
   font-size: 1.8rem;
+  padding: 10px;
 }
 
 .restaurantInfo {
   text-align: start;
+  margin-bottom: 15px;
 }
 
 .restaurantInfo p {
-  margin-left: 20px;
+  font-size: 1.4rem;
+  font-weight: 100;
+  margin-left: 10px;
 }
 
 #rest-list li {
@@ -164,6 +170,53 @@ main {
   background-color: #f0f0f0;
   padding: 10px;
   border-radius: 8px;
+}
+
+.distance {
+  font-size: 1.6rem;
+}
+
+.time {
+  font-size: 1.6rem;
+}
+
+.subtext {
+  font-size: 1.2rem;
+}
+
+.addFavorite {
+  height: 30px;
+  background-color: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-left: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.addFavorite:hover {
+  background-color: #264875;
+}
+
+.delFavorite {
+  height: 35px;
+  background-color: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-left: 20px;
+}
+
+.delFavorite:hover {
+  background-color: #264875;
+}
+
+h2 {
+  background-color: var(--yellow);
+  padding: 4px;
+  border-radius: 8px;
+  font-size: 1.6rem;
 }
 
 #shopping-list {
@@ -213,24 +266,23 @@ main {
 
 /* Bottom right text */
 
-.support {
-  text-align: center;
-  margin: 25px auto;
-  height: 150px;
-  line-height: 150px;
-  font-size: 2.4rem;
-  background-color: #ededed;
-  color: #484848;
+.container-fluid {
+  padding: 0;
 }
 
-.text-block {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background-color: black;
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
+.grid-text-container {
+  width: 100%;
+  background-color: var(--grey);
+  height: 150px;
+  margin: 25px auto;
+}
+
+.grid-text {
+  text-align: center;
+  font-size: 2.4rem;
+  color: #484848;
+  padding: 50px 0;
+  line-height: 3.0rem;
 }
 
 .image-grid {
@@ -246,19 +298,6 @@ main {
   flex-basis: 100%;
   padding: 10px;
   box-sizing: border-box;
-}
-
-.distance {
-  font-size: 2.5rem;
-  margin-top: 15px;
-}
-
-.time {
-  margin-top: 20px;
-}
-
-.subtext {
-  font-size: 1.0rem;
 }
 
 @media only screen and (min-width: 640px) {
