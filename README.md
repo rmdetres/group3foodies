@@ -1,4 +1,3 @@
-
 # # group3foodies
 
 Interactive Restaurant Web App by Zip Code
@@ -43,5 +42,5 @@ GitHub Web Page: https://rmdetres.github.io/group3foodies/
 ---
 
 ![website screenshot](./assets/images/screenshot1.png)
-feature/html-css-js
 ![website screenshot](./assets/images/screenshot.png)
+![website screenshot](./assets/images/screenshot2.png)
