@@ -23,48 +23,6 @@ if (favoriteRestaurants === null) {
 }
 
 
-//this function saves local storage for user entered data.
-// function saveLocalStorage(favoriteRestaurants) {
-
-//   localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
-
-// }
-
-// function to run the local storage
-// function runLocalStorage() {
-
-//   console.log("is this working1")
-//   var shoppingItemLocal = JSON.parse(localStorage.getItem("favoriteRestaurants"));
-//   if (shoppingItemLocal != null) {
-//     console.log(shoppingItemLocal);
-//     for (let i = 0; i < shoppingItemLocal.length; i++) {
-//       shoppingListEl.append('<p>' + shoppingItemLocal[i] + '</p>');
-//       console.log("is this working")
-//       favoriteRestaurants.push(shoppingItemLocal[i])
-//     }
-//   }
-// }
-
-
-// create foods spots list the user enters
-// function handleFormSubmit(event) {
-//   event.preventDefault();
-
-//line below updates the variable to pull the latest data, super important
-//favoriteRestaurants = JSON.parse(localStorage.getItem("favoriteRestaurants"));
-
-//   var shoppingItem = $('input[name="shopping-input"]').val();
-//   if (!shoppingItem) {
-//     console.log('No shopping item filled out in form!');
-//     return;
-//   }
-//   shoppingListEl.append('<li>' + shoppingItem + '</li>');
-//   $('input[name="shopping-input"]').val('');
-//   favoriteRestaurants.push(shoppingItem);
-//   console.log(favoriteRestaurants);
-//   saveLocalStorage(favoriteRestaurants);
-// }
-
 //* Displays a random food image from imageList
 function getRandomImage() {
   document.getElementById("rest-list").innerHTML = '<img src="./assets/images/' + imageList[Math.floor(Math.random() * imageList.length)] + '" />';
@@ -128,6 +86,7 @@ function buildResponse(dataSource, buildOption) {
         .text("feet away");
     }
 
+    //* display seconds response as hh:mm:ss
     var restaurantTime = $('<div>')
       .addClass('col-2 time')
       .text(new Date(dataSource[j].time * 1000).toISOString().substr(11, 8));
@@ -144,15 +103,19 @@ function buildResponse(dataSource, buildOption) {
           type: 'button',
         })
         .on('click', function () {
+          //* gets the "j" value posted in restaurantInfo from the first character
+          //* uses that to find array position of the button clicked
+          //* pushes storedRestaunts[j] to favoriteRestaurants
+          //* sorts and saves favorites & disables the button
           var listPos = $(this).siblings().first().text().split('.');
           favoriteRestaurants.push(dataSource[listPos[0] - 1]);
           favoriteRestaurants.sort((c1, c2) => (c1.distance > c2.distance) ? 1 : (c1.distance < c2.distance) ? -1 : 0);
-          console.log(favoriteRestaurants);
           localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
           $(this).attr("disabled", true);
 
         });
-      // *diables button if already favorited
+
+      // *diables button if storedRestaurants[j] is already a favorite
       if (favoriteRestaurants.some(e => e.restaurantName === dataSource[j].restaurantName)) {
         addFavorite.attr("disabled", true);
       }
@@ -160,19 +123,18 @@ function buildResponse(dataSource, buildOption) {
         .addClass('fas fa-heart fa-2x');
 
     } else if (buildOption === 'saved') {
-      //* buils delete button if showing favorites
+      //* builds [j] delete button if showing favorites
       var addFavorite = $('<button>')
         .addClass('col-2 delFavorite')
         .attr({
           type: 'button',
         })
         .on('click', function () {
+          //* deletes the array position[j]
           var listPos = $(this).siblings().first().text().split('.');
           favoriteRestaurants.splice(dataSource[listPos[0] - 1], 1);
           localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
           $(this).attr("disabled", true);
-          // listPos = $(this).parent()
-          // listPos.innerHTML = "";
         });
 
       var favIcon = $('<i>')
@@ -198,9 +160,9 @@ function buildResponse(dataSource, buildOption) {
   fetchButton.attr("disabled", false);
 }
 
-//* Gets distance for each item in search, if it hasnt already
+//* Gets distance for each item in search, if it hasnt already searched
 //* Sorts/Saves storedRestaurants
-//* awaits all the fetchs then startes buildResponse()
+//* awaits each fetch and starts buildResponse()
 async function getDistance() {
   if (!storedRestaurants[0].hasOwnProperty('distance')) {
     console.log('fetching time and space');
@@ -218,7 +180,7 @@ async function getDistance() {
         .then(response => response.json())
         .then(function (response) {
           storedRestaurants[i].distance = response.features[0].properties.distance;
-          storedRestaurants[i].time = response.features[0].properties.time;          
+          storedRestaurants[i].time = response.features[0].properties.time;
           storedRestaurants.sort((c1, c2) => (c1.distance > c2.distance) ? 1 : (c1.distance < c2.distance) ? -1 : 0);
         })
         .catch(err => console.error(err));
@@ -247,7 +209,7 @@ function getData() {
         'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
       }
     };
-    fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipCodeDataFinal + '/0', options) // set static zip code for CONSTRUCTION
+    fetch('https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/' + zipCodeDataFinal + '/0', options)
       .then(response => response.json())
       .then(function (response) {
         console.log(response);
@@ -286,10 +248,12 @@ var fetchButton = $('#fetch-button').on('click', function (event) {
   getData();
 });
 
+//view favorites button
 var favoritesTab = $('#toSaved').on('click', function (event) {
   buildResponse(favoriteRestaurants, 'saved');
 });
 
+//back to previous search button
 var resultTab = $('#toResult').on('click', function (event) {
   buildResponse(storedRestaurants, 'search');
 });
