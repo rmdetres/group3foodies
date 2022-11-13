@@ -144,7 +144,6 @@ main {
 
 /* result container section */
 .result-container {
-  width: 600px;
   margin: 20px auto;
   text-align: center;
   font-size: 1.8rem;
@@ -154,7 +153,6 @@ main {
 .restaurantInfo {
   text-align: start;
   margin-bottom: 15px;
-
 }
 
 .restaurantInfo p {
@@ -164,7 +162,7 @@ main {
 }
 
 #rest-list li {
-  width: 600px;
+  width: 400px;
   margin: 20px auto;
   text-align: left;
   padding: 10px;
@@ -185,6 +183,7 @@ main {
 
 .addFavorite {
   height: 30px;
+  width: 30px;
   background-color: var(--blue);
   color: var(--grey);
   border: none;
