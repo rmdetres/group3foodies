@@ -61,10 +61,10 @@ function buildResponse(dataSource, buildOption) {
       .text(dataSource[j].address);
 
     var restaurantPostal = $('<p>')
-      .text(dataSource[j].cityName + ',' + dataSource[j].stateName + ' ' + dataSource[j].zipCode);
+      .text(dataSource[j].cityName + ', ' + dataSource[j].stateName + ' ' + dataSource[j].zipCode);
 
     var restaurantPhone = $('<p>')
-      .text(dataSource[j].phone);
+      .text("Phone: " + dataSource[j].phone);
 
     if (dataSource[j].distance > 160) {
 
@@ -98,7 +98,7 @@ function buildResponse(dataSource, buildOption) {
     if (buildOption === 'search') {
       //* builds favorite button if showing search result
       var addFavorite = $('<button>')
-        .addClass('col-2 addFavorite')
+        .addClass('col-1 addFavorite')
         .attr({
           type: 'button',
         })
@@ -120,12 +120,12 @@ function buildResponse(dataSource, buildOption) {
         addFavorite.attr("disabled", true);
       }
       var favIcon = $('<i>')
-        .addClass('fas fa-heart fa-2x');
+        .addClass('fas fa-heart fa-1x');
 
     } else if (buildOption === 'saved') {
       //* builds [j] delete button if showing favorites
       var addFavorite = $('<button>')
-        .addClass('col-2 delFavorite')
+        .addClass('col-1 delFavorite')
         .attr({
           type: 'button',
         })
@@ -138,7 +138,7 @@ function buildResponse(dataSource, buildOption) {
         });
 
       var favIcon = $('<i>')
-        .addClass('fas fa-trash fa-2x');
+        .addClass('fas fa-trash fa-1x');
 
     } else {
       console.log('buildOption Error');
@@ -264,5 +264,3 @@ var resultTab = $('#toResult').on('click', function (event) {
 // runLocalStorage();
 getRandomImage();
 getLocation();
-
-
