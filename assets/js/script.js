@@ -40,6 +40,13 @@ function showPosition(position) {
   currentLoc.longitude = position.coords.longitude;
 }
 
+//* sets buttonState(boolean) for all buttons that use buildResponse()
+function buttonState(isDisabled) {
+  fetchButton.attr("disabled", isDisabled);
+  favoritesTab.attr("disabled", isDisabled);
+  resultTab.attr("disabled", isDisabled);
+}
+
 //*Function to build layout from zipcodeFetch, savedFetch, or favoriteRestaurants 
 function buildResponse(dataSource, buildOption) {
 
@@ -109,13 +116,13 @@ function buildResponse(dataSource, buildOption) {
           favoriteRestaurants.push(dataSource[listPos[0] - 1]);
           favoriteRestaurants.sort((c1, c2) => (c1.distance > c2.distance) ? 1 : (c1.distance < c2.distance) ? -1 : 0);
           localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
-          $(this).attr("disabled", true);
+          $(this).attr("disabled", true).css('background-color', "#eaeaea");
 
         });
 
       // *diables button if storedRestaurants[j] is already a favorite
       if (favoriteRestaurants.some(e => e.restaurantName === dataSource[j].restaurantName)) {
-        addFavorite.attr("disabled", true);
+        addFavorite.attr("disabled", true).css('background-color', "#eaeaea");
       }
       var favIcon = $('<i>')
         .addClass('fas fa-heart fa-1x');
@@ -132,7 +139,7 @@ function buildResponse(dataSource, buildOption) {
           var listPos = $(this).siblings().first().text().split('.');
           favoriteRestaurants.splice(dataSource[listPos[0] - 1], 1);
           localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
-          $(this).attr("disabled", true);
+          $(this).attr("disabled", true).css('background-color', "#eaeaea");
         });
 
       var favIcon = $('<i>')
@@ -155,7 +162,7 @@ function buildResponse(dataSource, buildOption) {
     $(restaurantResult).append(addFavorite);
     $(addFavorite).append(favIcon);
   }
-  fetchButton.attr("disabled", false);
+  buttonState(false);
 }
 
 //* Gets distance for each item in search, if it hasnt already searched
@@ -203,7 +210,7 @@ function getData() {
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': 'a9ea82fb84msh7369adc411cc5cbp18f351jsn9f009c32dbe0',
+        'X-RapidAPI-Key': '456ed3b828msh153bbf70fb39ab5p12acfdjsn29c133b9476c',
         'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
       }
     };
@@ -242,23 +249,23 @@ function getData() {
 //button to fetch the restaurant API calls
 var fetchButton = $('#fetch-button').on('click', function (event) {
   event.preventDefault();
-  fetchButton.attr("disabled", true);
+  buttonState(true);
   getData();
 });
 
 //view favorites button
 var favoritesTab = $('#toSaved').on('click', function (event) {
+  event.preventDefault();
+  buttonState(true);
   buildResponse(favoriteRestaurants, 'saved');
 });
 
 //back to previous search button
 var resultTab = $('#toResult').on('click', function (event) {
+  event.preventDefault();
+  buttonState(true);
   buildResponse(storedRestaurants, 'search');
 });
 
-// Create a submit event listener on the form element
-// shoppingFormEl.on('submit', handleFormSubmit);
-
-// runLocalStorage();
 getRandomImage();
 getLocation();
