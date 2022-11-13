@@ -1,6 +1,4 @@
 var storedRestaurants = JSON.parse(localStorage.getItem("storedRestaurants"));
-var shoppingFormEl = $('#shopping-form');
-var shoppingListEl = $('#shopping-list');
 var restList = $('#rest-list');
 var currentLoc = {}
 var zipCodeDataFinal;
