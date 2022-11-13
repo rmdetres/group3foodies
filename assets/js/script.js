@@ -54,7 +54,7 @@ function buildResponse(dataSource, buildOption) {
 
   for (let j = 0; j < dataSource.length; j++) {
     var restaurantResult = $('<div>')
-      .addClass('row restaurantResult rest-pos-' + j + '');
+      .addClass('row restaurantResult rest-pos-' + j + ''); // d-flex justify-content-between 
 
     var restaurantInfo = $('<div>')
       .addClass('col-12 col-sm-6 restaurantInfo align-items-start');
@@ -136,10 +136,14 @@ function buildResponse(dataSource, buildOption) {
         })
         .on('click', function () {
           //* deletes the array position[j]
+          //* removes button parent and rebuildResponse()
           var listPos = $(this).siblings().first().text().split('.');
           favoriteRestaurants.splice(dataSource[listPos[0] - 1], 1);
           localStorage.setItem("favoriteRestaurants", JSON.stringify(favoriteRestaurants));
-          $(this).attr("disabled", true).css('background-color', "#eaeaea");
+          $(this).parent().remove();
+          buttonState(true);
+          buildResponse(favoriteRestaurants, 'saved');
+
         });
 
       var favIcon = $('<i>')
