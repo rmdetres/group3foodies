@@ -253,8 +253,14 @@ function getData() {
 //button to fetch the restaurant API calls
 var fetchButton = $('#fetch-button').on('click', function (event) {
   event.preventDefault();
+  //* Checks if input is US postal code
+  if (/^\d{5}(-\d{4})?$/.test(zipCodeData.value.trim())) {
   buttonState(true);
   getData();
+  } else {
+    zipCodeData.placeholder = "Enter Valid Zip Code";
+    zipCodeData.value = "";
+  }
 });
 
 //view favorites button
