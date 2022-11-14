@@ -74,7 +74,7 @@ function buildResponse(dataSource, buildOption) {
     if (dataSource[j].distance > 160) {
 
       var restaurantDistance = $('<div>')
-        .addClass('col-2 distance')
+        .addClass('col-4 col-sm-2 distance')
         .text(Math.round((dataSource[j].distance / 1609) * 10) / 10);
 
       var milesAway = $('<p>')
@@ -83,7 +83,7 @@ function buildResponse(dataSource, buildOption) {
     } else {
 
       var restaurantDistance = $('<div>')
-        .addClass('col-2 distance')
+        .addClass('col-4 col-sm-2 distance')
         .text(Math.round(dataSource[j].distance / .304))
 
       var milesAway = $('<p>')
@@ -93,7 +93,7 @@ function buildResponse(dataSource, buildOption) {
 
     //* display seconds response as hh:mm:ss
     var restaurantTime = $('<div>')
-      .addClass('col-2 time')
+      .addClass('col-4 col-sm-2 time')
       .text(new Date(dataSource[j].time * 1000).toISOString().substring(11, 16));
 
     var onFoot = $('<p>')
@@ -103,7 +103,7 @@ function buildResponse(dataSource, buildOption) {
     if (buildOption === 'search') {
       //* builds favorite button if showing search result
       var addFavorite = $('<button>')
-        .addClass('col-1 addFavorite')
+        .addClass('col-3 col-sm-1 addFavorite')
         .attr({
           type: 'button',
         })
@@ -130,7 +130,7 @@ function buildResponse(dataSource, buildOption) {
     } else if (buildOption === 'saved') {
       //* builds [j] delete button if showing favorites
       var addFavorite = $('<button>')
-        .addClass('col-1 delFavorite')
+        .addClass('col-3 col-sm-1 addFavorite')
         .attr({
           type: 'button',
         })
