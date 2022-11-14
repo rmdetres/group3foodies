@@ -281,14 +281,13 @@ var favoritesTab = $('#toSaved').on('click', function (event) {
 
 //back to previous search button
 var resultTab = $('#toResult').on('click', function (event) {
+  buttonState(true);
   event.preventDefault();
   if (currentDisplay === "search") {
     getDistance(storedRestaurants, "search");
   } else {
-
-
-    buttonState(true);
     buildResponse(storedRestaurants, 'search');
+    currentDisplay = "search";
   }
 });
 
