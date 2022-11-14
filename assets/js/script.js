@@ -2,6 +2,7 @@ var storedRestaurants = JSON.parse(localStorage.getItem("storedRestaurants"));
 var restList = $('#rest-list');
 var currentLoc = {}
 var zipCodeDataFinal;
+var currentDisplay = "";
 var zipCodeData = document.querySelector('#zipCode2');
 var imageList = ['Burger.jpg', 'Crepe.jpg', 'Dimsum.jpg', 'Hotdog.jpg', 'Pasta.jpg', 'Pizza.jpg', 'Ribs.jpg', 'Sushi.jpg', 'tacos.jpg'];
 var locationGot = false;
@@ -172,33 +173,35 @@ function buildResponse(dataSource, buildOption) {
 //* Gets distance for each item in search, if it hasnt already searched
 //* Sorts/Saves storedRestaurants
 //* awaits each fetch and starts buildResponse()
-async function getDistance() {
-  if (!storedRestaurants[0].hasOwnProperty('distance')) {
-    console.log('fetching time and space');
-    for (let i = 0; i < storedRestaurants.length; i++) {
-      getRandomImage();
-      const options = {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
-          'X-RapidAPI-Host': 'route-and-directions.p.rapidapi.com'
-        }
-      };
+async function getDistance(dataSource, buildOption) {
 
-      await fetch('https://route-and-directions.p.rapidapi.com/v1/routing?waypoints=' + currentLoc.latitude + ',' + currentLoc.longitude + '|' + storedRestaurants[i].latitude + ',' + storedRestaurants[i].longitude + '&mode=walk', options)
-        .then(response => response.json())
-        .then(function (response) {
-          storedRestaurants[i].distance = response.features[0].properties.distance;
-          storedRestaurants[i].time = response.features[0].properties.time;
-          storedRestaurants.sort((c1, c2) => (c1.distance > c2.distance) ? 1 : (c1.distance < c2.distance) ? -1 : 0);
-        })
-        .catch(err => console.error(err));
-      localStorage.setItem("storedRestaurants", JSON.stringify(storedRestaurants));
+  console.log('fetching time and space');
+  for (let i = 0; i < dataSource.length; i++) {
+    getRandomImage();
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': '0cab365bcfmsh9bc2df3c26f4a8dp178b26jsn2eeb80f2d94d',
+        'X-RapidAPI-Host': 'route-and-directions.p.rapidapi.com'
+      }
+    };
+
+    await fetch('https://route-and-directions.p.rapidapi.com/v1/routing?waypoints=' + currentLoc.latitude + ',' + currentLoc.longitude + '|' + dataSource[i].latitude + ',' + dataSource[i].longitude + '&mode=walk', options)
+      .then(response => response.json())
+      .then(function (response) {
+        dataSource[i].distance = response.features[0].properties.distance;
+        dataSource[i].time = response.features[0].properties.time;
+        dataSource.sort((c1, c2) => (c1.distance > c2.distance) ? 1 : (c1.distance < c2.distance) ? -1 : 0);
+      })
+      .catch(err => console.error(err));
+    if (buildOption === 'search') {
+      localStorage.setItem("storedRestaurants", JSON.stringify(dataSource));
+    } else if (buildOption === 'saved') {
+      localStorage.setItem("favoriteRestaurants", JSON.stringify(dataSource));
     }
-    buildResponse(storedRestaurants, 'search');
-  } else {
-    console.log('data was there');
   }
+  buildResponse(storedRestaurants, buildOption);
+
 }
 
 //* Gets data based on zipcode input
@@ -255,8 +258,9 @@ var fetchButton = $('#fetch-button').on('click', function (event) {
   event.preventDefault();
   //* Checks if input is US postal code
   if (/^\d{5}(-\d{4})?$/.test(zipCodeData.value.trim())) {
-  buttonState(true);
-  getData();
+    buttonState(true);
+    getData();
+    currentDisplay = "search"
   } else {
     zipCodeData.placeholder = "Enter Valid Zip Code";
     zipCodeData.value = "";
@@ -267,14 +271,25 @@ var fetchButton = $('#fetch-button').on('click', function (event) {
 var favoritesTab = $('#toSaved').on('click', function (event) {
   event.preventDefault();
   buttonState(true);
-  buildResponse(favoriteRestaurants, 'saved');
+  if (currentDisplay === "saved") {
+    getDistance(favoriteRestaurants, "saved");
+  } else {
+    buildResponse(favoriteRestaurants, 'saved');
+    currentDisplay = "saved"
+  }
 });
 
 //back to previous search button
 var resultTab = $('#toResult').on('click', function (event) {
   event.preventDefault();
-  buttonState(true);
-  buildResponse(storedRestaurants, 'search');
+  if (currentDisplay === "search") {
+    getDistance(storedRestaurants, "search");
+  } else {
+
+
+    buttonState(true);
+    buildResponse(storedRestaurants, 'search');
+  }
 });
 
 getRandomImage();
