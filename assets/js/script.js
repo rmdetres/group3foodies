@@ -94,7 +94,7 @@ function buildResponse(dataSource, buildOption) {
     //* display seconds response as hh:mm:ss
     var restaurantTime = $('<div>')
       .addClass('col-2 time')
-      .text(new Date(dataSource[j].time * 1000).toISOString().substr(11, 8));
+      .text(new Date(dataSource[j].time * 1000).toISOString().substring(11, 16));
 
     var onFoot = $('<p>')
       .addClass('onFoot subtext')
