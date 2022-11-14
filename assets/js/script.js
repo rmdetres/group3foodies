@@ -200,7 +200,7 @@ async function getDistance(dataSource, buildOption) {
       localStorage.setItem("favoriteRestaurants", JSON.stringify(dataSource));
     }
   }
-  buildResponse(storedRestaurants, buildOption);
+  buildResponse(dataSource, buildOption);
 
 }
 
@@ -238,7 +238,7 @@ function getData() {
           currentLoc.zipcodeLast = zipCodeDataFinal;
           if (locationGot) {
             getRandomImage();
-            getDistance();
+            getDistance(storedRestaurants, 'search');
             localStorage.setItem("currentLoc", JSON.stringify(currentLoc));
           }
         }
@@ -272,7 +272,7 @@ var favoritesTab = $('#toSaved').on('click', function (event) {
   event.preventDefault();
   buttonState(true);
   if (currentDisplay === "saved") {
-    getDistance(favoriteRestaurants, "saved");
+    getDistance(favoriteRestaurants, 'saved');
   } else {
     buildResponse(favoriteRestaurants, 'saved');
     currentDisplay = "saved"
@@ -284,7 +284,7 @@ var resultTab = $('#toResult').on('click', function (event) {
   buttonState(true);
   event.preventDefault();
   if (currentDisplay === "search") {
-    getDistance(storedRestaurants, "search");
+    getDistance(storedRestaurants, 'search');
   } else {
     buildResponse(storedRestaurants, 'search');
     currentDisplay = "search";
